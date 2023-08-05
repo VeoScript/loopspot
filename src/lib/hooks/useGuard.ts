@@ -6,7 +6,7 @@ import {SECRET_KEY} from '@env';
 import {userStore} from '../stores/auth';
 
 export const useGuard = (): boolean => {
-  const [isAuth, setIsAuth] = useState<boolean>(false);
+  const [isAuth, setIsAuth] = useState<boolean>(true);
 
   const {setUserId} = userStore();
 
