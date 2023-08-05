@@ -3,10 +3,12 @@ import {v} from 'convex/values';
 
 export const user = query({
   args: {
-    userId: v.id('users'),
+    userId: v.string(),
   },
   handler: async (ctx, args) => {
-    const user = await ctx.db.get(args.userId);
+    const user = await ctx.db.query("users")
+    .filter((q) => q.eq(q.field("_id"), args.userId))
+    .unique();
     return user;
   },
 });
