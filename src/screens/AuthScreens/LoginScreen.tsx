@@ -1,9 +1,10 @@
 import React from 'react';
 import AuthLayout from '../../components/templates/AuthLayout';
-import {View, Text, TextInput, TouchableOpacity} from 'react-native';
+import {BackHandler, View, Text, TextInput, TouchableOpacity} from 'react-native';
 
 import tw from '../../styles/tailwind';
 import {useNavigate} from '../../config/RootNavigation';
+import {useBackHandler} from '../../lib/hooks/useBackHandler';
 import {loginStore} from '../../lib/stores/auth';
 import {useLoginMutation} from '../../lib/functions/useAuth';
 
@@ -32,10 +33,16 @@ const LoginScreen = (): JSX.Element => {
       email,
       password,
       setError,
+      setIsLoading,
       setDefault,
       loginMutation,
     });
   };
+
+  useBackHandler(() => {
+    setDefault();
+    BackHandler.exitApp();
+  });
 
   return (
     <AuthLayout>
@@ -43,7 +50,7 @@ const LoginScreen = (): JSX.Element => {
         {error && (
           <View
             style={tw`flex-row justify-center w-full p-3 rounded-xl bg-red-400`}>
-            <Text style={tw`font-dosis text-sm text-white`}>
+            <Text style={tw`font-dosis text-xs text-white`}>
               {error.toString()}
             </Text>
           </View>
@@ -91,7 +98,10 @@ const LoginScreen = (): JSX.Element => {
         <TouchableOpacity
           activeOpacity={0.5}
           style={tw`flex-row items-center justify-center w-full p-4 rounded-xl bg-[#474747]`}
-          onPress={() => useNavigate('RegisterScreen')}>
+          onPress={() => {
+            setDefault();
+            useNavigate('RegisterScreen')
+          }}>
           <Text style={tw`font-dosis text-white`}>Create account</Text>
         </TouchableOpacity>
       </View>

@@ -18,6 +18,7 @@ export const loginStore = create<type.LoginStoreProps>(set => ({
   setDefault: () =>
     set(() => ({
       isLoading: false,
+      error: '',
       name: '',
       email: '',
       password: '',
@@ -30,16 +31,20 @@ export const registerStore = create<type.RegisterStoreProps>(set => ({
   name: '',
   email: '',
   password: '',
+  repassword: '',
   setIsLoading: (value: boolean) => set(() => ({isLoading: value})),
   setError: (value: string) => set(() => ({error: value})),
   setName: (value: string) => set(() => ({name: value})),
   setEmail: (value: string) => set(() => ({email: value})),
   setPassword: (value: string) => set(() => ({password: value})),
+  setRepassword: (value: string) => set(() => ({repassword: value})),
   setDefault: () =>
     set(() => ({
       isLoading: false,
+      error: '',
       name: '',
       email: '',
       password: '',
+      repassword: '',
     })),
 }));
