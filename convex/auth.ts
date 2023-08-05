@@ -20,20 +20,20 @@ export const login = mutation({
     const user = await ctx.db
       .query('users')
       .filter(q => q.eq(q.field('email'), args.email))
-      .collect();
+      .unique();
 
-    if (!user[0]) {
-      return ([{
+    if (!user) {
+      return ({
         status: 400,
         message: 'Account not found!'
-      }]);
+      });
     }
 
-    if (user[0].password !== args.password) {
-      return ([{
+    if (user.password !== args.password) {
+      return ({
         status: 400,
         message: 'Password is incorrect!'
-      }]);
+      });
     }
 
     return user;
