@@ -7,6 +7,7 @@ interface LoginProps {
   email: string;
   password: string;
   setError: (value: string) => void;
+  setIsLoading: (value: boolean) => void;
   setDefault: () => void;
   loginMutation: any;
 }
@@ -15,12 +16,27 @@ interface RegistrationProps {
   name: string;
   email: string;
   password: string;
+  repassword: string;
+  setError: (value: string) => void;
+  setIsLoading: (value: boolean) => void;
   setDefault: () => void;
   registerMutation: any;
 }
 
 export const useLoginMutation = async (props: LoginProps): Promise<void> => {
-  const {email, password, setError, setDefault, loginMutation} = props;
+  const {email, password, setError, setIsLoading, setDefault, loginMutation} = props;
+
+  if (email.trim() === '') {
+    setError('Email is required');
+    setIsLoading(false);
+    return;
+  }
+  
+  if (password.trim() === '') {
+    setError('Password is required');
+    setIsLoading(false);
+    return;
+  }
 
   const user = await loginMutation({
     email,
@@ -29,7 +45,7 @@ export const useLoginMutation = async (props: LoginProps): Promise<void> => {
 
   if (user?.status === 400) {
     setError(user?.message);
-    setDefault();
+    setIsLoading(false);
   } else {
     const token = await sign(
       {
@@ -40,7 +56,7 @@ export const useLoginMutation = async (props: LoginProps): Promise<void> => {
         alg: 'HS256',
       },
     );
-    
+
     await AsyncStorage.setItem('USER_TOKEN', token);
     setDefault();
     useNavigate('HomeScreen');
@@ -52,31 +68,69 @@ export const useLoginMutation = async (props: LoginProps): Promise<void> => {
 export const useRegisterMutation = async (
   props: RegistrationProps,
 ): Promise<void> => {
-  const {name, email, password, setDefault, registerMutation} = props;
+  const {name, email, password, repassword, setError, setIsLoading, setDefault, registerMutation} = props;
 
-  const userId = await registerMutation({
+  if (name.trim() === '') {
+    setError('Name is required');
+    setIsLoading(false);
+    return;
+  }
+
+  if (email.trim() === '') {
+    setError('Email is required');
+    setIsLoading(false);
+    return;
+  }
+  
+  if (password.trim() === '') {
+    setError('Password is required');
+    setIsLoading(false);
+    return;
+  }
+  
+  if (repassword.trim() === '') {
+    setError('Re-enter password is required');
+    setIsLoading(false);
+    return;
+  }
+  
+  if (repassword !== password) {
+    setError('Password not matched, Try again.');
+    setIsLoading(false);
+    return;
+  }
+
+  const user = await registerMutation({
     name,
     email,
     password,
   });
 
-  if (userId) {
-    const token = await sign(
-      {
-        userId: userId,
-      },
-      SECRET_KEY,
-      {
-        alg: 'HS256',
-      },
-    );
-
-    await AsyncStorage.setItem('USER_TOKEN', token);
-    setDefault();
-    useNavigate('HomeScreen');
+  if (user.status === 400) {
+    setError(user.message);
+    setIsLoading(false);
+    return;
   }
 
-  setDefault();
+  const token = await sign(
+    {
+      userId: user.userId,
+    },
+    SECRET_KEY,
+    {
+      alg: 'HS256',
+    },
+  );
 
+  await AsyncStorage.setItem('USER_TOKEN', token);
+  setDefault();
+  useNavigate('HomeScreen');
+
+  return;
+};
+
+export const useLogoutMutation = async (): Promise<void> => {
+  await AsyncStorage.setItem('USER_TOKEN', '');
+  useNavigate('LoginScreen');
   return;
 };

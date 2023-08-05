@@ -1,4 +1,4 @@
-export interface LoginStoreProps extends Omit<RegisterStoreProps, 'name' | 'setName' > {}
+export interface LoginStoreProps extends Omit<RegisterStoreProps, 'name' | 'setName' | 'repassword' | 'setRepassword' > {}
 
 export interface RegisterStoreProps {
   isLoading: boolean;
@@ -6,11 +6,13 @@ export interface RegisterStoreProps {
   name: string;
   email: string;
   password: string;
+  repassword: string;
   setIsLoading: (value: boolean) => void;
   setError: (value: string) => void;
   setName: (value: string) => void;
   setEmail: (value: string) => void;
   setPassword: (value: string) => void;
+  setRepassword: (value: string) => void;
   setDefault: () => void;
 }
 

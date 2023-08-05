@@ -47,12 +47,28 @@ export const register = mutation({
     password: v.string(),
   },
   handler: async (ctx, args) => {
+    const user = await ctx.db
+      .query('users')
+      .filter(q => q.eq(q.field('email'), args.email))
+      .unique();
+
+    if (user) {
+      return ({
+        status: 400,
+        message: 'Account is not available!'
+      });
+    }
+
     const userId = await ctx.db.insert('users', {
       name: args.name,
       email: args.email,
       password: args.password,
+      username: null
     });
 
-    return userId;
+    return {
+      status: 200,
+      userId,
+    };
   },
 });
