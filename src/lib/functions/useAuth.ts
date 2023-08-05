@@ -27,13 +27,13 @@ export const useLoginMutation = async (props: LoginProps): Promise<void> => {
     password,
   });
 
-  if (user[0]?.status === 400) {
-    setError(user[0]?.message);
+  if (user?.status === 400) {
+    setError(user?.message);
     setDefault();
   } else {
     const token = await sign(
       {
-        userId: user[0]._id,
+        userId: user._id,
       },
       SECRET_KEY,
       {
