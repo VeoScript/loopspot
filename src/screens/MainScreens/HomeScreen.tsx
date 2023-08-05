@@ -1,8 +1,8 @@
 import React from 'react';
 import {View, Text} from 'react-native';
-import DefaultLayout from '../components/templates/DefaultLayout';
+import DefaultLayout from '../../components/templates/DefaultLayout';
 
-const HomeScreen = () => {
+const HomeScreen = (): JSX.Element => {
   return (
     <DefaultLayout>
       <View>
