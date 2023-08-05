@@ -1,3 +1,5 @@
-import HomeScreen from '../screens/HomeScreen';
+import LoginScreen from '../screens/AuthScreens/LoginScreen';
+import RegisterScreen from '../screens/AuthScreens/RegisterScreen';
+import HomeScreen from '../screens/MainScreens/HomeScreen';
 
-export {HomeScreen};
+export {LoginScreen, RegisterScreen, HomeScreen};
