@@ -1,0 +1,37 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/assets/fonts/Dosis-Bold.ttf",
+      "sha1": "9f646e03f99c47f3a361ce86163485cefe9731f7"
+    },
+    {
+      "path": "src/assets/fonts/Dosis-ExtraBold.ttf",
+      "sha1": "ed4dad385262ec71becfb1f4257a515e964e9b5c"
+    },
+    {
+      "path": "src/assets/fonts/Dosis-ExtraLight.ttf",
+      "sha1": "0721869e1d4dbdb1ec18d776e5370cc810229a35"
+    },
+    {
+      "path": "src/assets/fonts/Dosis-Light.ttf",
+      "sha1": "5c7173f630fa6ff0a4878be2b63d7e121a5fcfac"
+    },
+    {
+      "path": "src/assets/fonts/Dosis-Medium.ttf",
+      "sha1": "77e6f8ce6baf98f01d115ddee59bc7e4802e110d"
+    },
+    {
+      "path": "src/assets/fonts/Dosis-Regular.ttf",
+      "sha1": "223f2240a8b3da47bb195e560a46f50fcafd43db"
+    },
+    {
+      "path": "src/assets/fonts/Dosis-SemiBold.ttf",
+      "sha1": "764f5d2ef34074f9b483f0eb09e252fdd828e167"
+    },
+    {
+      "path": "src/assets/fonts/VinaSans-Regular.ttf",
+      "sha1": "3badc1a710a8d7f0af761dd6bb34ad35e02ed214"
+    }
+  ]
+}
