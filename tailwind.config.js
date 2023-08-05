@@ -7,14 +7,14 @@ module.exports = {
         'accent-1': '#FFFFFF',
         'accent-2': '#222222',
       },
-      // fontFamily: {
-      //   'inconsolata-regular': 'Inconsolata-Regular',
-      //   'inconsolata-light': 'Inconsolata-Light',
-      //   'inconsolata-medium': 'Inconsolata-Medium',
-      //   'inconsolata-semibold': 'Inconsolata-SemiBold',
-      //   'inconsolata-bold': 'Inconsolata-Bold',
-      //   'inconsolata-black': 'Inconsolata-Black',
-      // },
+      fontFamily: {
+        'vina-sans': 'VinaSans-Regular',
+        'dosis': 'Dosis-Regular',
+        'dosis-light': 'Dosis-Light',
+        'dosis-medium': 'Dosis-Medium',
+        'dosis-semibold': 'Dosis-SemiBold',
+        'dosis-bold': 'Dosis-Bold',
+      },
     },
   },
   plugins: [
@@ -23,42 +23,6 @@ module.exports = {
     //     'border-line-top': {
     //       borderTopWidth: 1,
     //       borderColor: '#2E3032',
-    //     },
-    //     'border-line-bottom': {
-    //       borderBottomWidth: 1,
-    //       borderColor: '#2E3032',
-    //     },
-    //     'border-line-left': {
-    //       borderLeftWidth: 1,
-    //       borderColor: '#2E3032',
-    //     },
-    //     'border-line-right': {
-    //       borderRightWidth: 1,
-    //       borderColor: '#2E3032',
-    //     },
-    //     'text-regular': {
-    //       fontFamily: 'Inconsolata-Regular',
-    //       color: '#E8EAED',
-    //     },
-    //     'text-light': {
-    //       fontFamily: 'Inconsolata-Light',
-    //       color: '#E8EAED',
-    //     },
-    //     'text-medium': {
-    //       fontFamily: 'Inconsolata-Medium',
-    //       color: '#E8EAED',
-    //     },
-    //     'text-semibold': {
-    //       fontFamily: 'Inconsolata-SemiBold',
-    //       color: '#E8EAED',
-    //     },
-    //     'text-bold': {
-    //       fontFamily: 'Inconsolata-Bold',
-    //       color: '#E8EAED',
-    //     },
-    //     'text-black': {
-    //       fontFamily: 'Inconsolata-Black',
-    //       color: '#E8EAED',
     //     },
     //   });
     // }),
