@@ -62,9 +62,9 @@ const RegisterScreen = (): JSX.Element => {
           </View>
         )}
         <View style={tw`flex-col w-full gap-y-2`}>
-          <Text style={tw`ml-2 font-dosis text-sm`}>Name</Text>
+          <Text style={tw`ml-2 font-dosis text-sm default-text-color`}>Name</Text>
           <TextInput
-            style={tw`w-full px-3 font-dosis rounded-xl border border-neutral-300`}
+            style={tw`default-text-input`}
             value={name}
             onChangeText={value => {
               setName(value);
@@ -73,9 +73,9 @@ const RegisterScreen = (): JSX.Element => {
           />
         </View>
         <View style={tw`flex-col w-full gap-y-2`}>
-          <Text style={tw`ml-2 font-dosis text-sm`}>Email</Text>
+          <Text style={tw`ml-2 font-dosis text-sm default-text-color`}>Email</Text>
           <TextInput
-            style={tw`w-full px-3 font-dosis rounded-xl border border-neutral-300`}
+            style={tw`default-text-input`}
             keyboardType="email-address"
             value={email}
             onChangeText={value => {
@@ -85,9 +85,9 @@ const RegisterScreen = (): JSX.Element => {
           />
         </View>
         <View style={tw`flex-col w-full gap-y-2`}>
-          <Text style={tw`ml-2 font-dosis text-sm`}>Password</Text>
+          <Text style={tw`ml-2 font-dosis text-sm default-text-color`}>Password</Text>
           <TextInput
-            style={tw`w-full px-3 font-dosis rounded-xl border border-neutral-300`}
+            style={tw`default-text-input`}
             secureTextEntry={true}
             value={password}
             onChangeText={value => {
@@ -97,9 +97,9 @@ const RegisterScreen = (): JSX.Element => {
           />
         </View>
         <View style={tw`flex-col w-full gap-y-2`}>
-          <Text style={tw`ml-2 font-dosis text-sm`}>Re-enter password</Text>
+          <Text style={tw`ml-2 font-dosis text-sm default-text-color`}>Re-enter password</Text>
           <TextInput
-            style={tw`w-full px-3 font-dosis rounded-xl border border-neutral-300`}
+            style={tw`default-text-input`}
             secureTextEntry={true}
             value={repassword}
             onChangeText={value => {
@@ -112,7 +112,7 @@ const RegisterScreen = (): JSX.Element => {
           disabled={isLoading}
           activeOpacity={0.5}
           style={tw.style(
-            'flex-row items-center justify-center w-full p-4 rounded-xl bg-[#222]',
+            'flex-row items-center justify-center w-full p-4 rounded-xl bg-accent-2',
             isLoading && 'opacity-50',
           )}
           onPress={handleRegister}>
