@@ -6,8 +6,12 @@ import {View, Text, TouchableOpacity} from 'react-native';
 import {useRoute} from '@react-navigation/native';
 import {useNavigate} from '../../config/RootNavigation';
 
-const TopBar = () => {
+import {menuModalStore} from '../../lib/stores/global';
+
+const TopBar = (): JSX.Element => {
   const {name} = useRoute();
+
+  const {isVisible, setIsVisible} = menuModalStore();
 
   const renderCurrentRoute = (current: string) => {
     switch (current) {
@@ -32,7 +36,11 @@ const TopBar = () => {
     <View
       style={tw`flex-row items-center justify-between w-full px-3 py-5 bg-accent-3`}>
       <View style={tw`flex-row items-center gap-x-5`}>
-        <TouchableOpacity activeOpacity={0.5}>
+        <TouchableOpacity
+          activeOpacity={0.5}
+          onPress={() =>
+            isVisible ? setIsVisible(false) : setIsVisible(true)
+          }>
           <FeatherIcon name="menu" color="#222" size={25} />
         </TouchableOpacity>
         <Text style={tw`default-text-color font-dosis-bold text-xl`}>
