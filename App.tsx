@@ -25,7 +25,7 @@ const App = () => {
       <NavigationContainer ref={navigationRef}>
         <StatusBarMain
           animated={false}
-          backgroundColor="#FFFFFF"
+          backgroundColor="#FFE1A8"
           barStyle="dark-content"
         />
         <Stack.Navigator

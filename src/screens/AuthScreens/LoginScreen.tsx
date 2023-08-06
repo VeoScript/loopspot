@@ -56,9 +56,9 @@ const LoginScreen = (): JSX.Element => {
           </View>
         )}
         <View style={tw`flex-col w-full gap-y-2`}>
-          <Text style={tw`ml-2 font-dosis text-sm`}>Email</Text>
+          <Text style={tw`ml-2 font-dosis text-sm default-text-color`}>Email</Text>
           <TextInput
-            style={tw`w-full px-3 font-dosis rounded-xl border border-neutral-300`}
+            style={tw`default-text-input`}
             keyboardType="email-address"
             value={email}
             onChangeText={value => {
@@ -68,9 +68,9 @@ const LoginScreen = (): JSX.Element => {
           />
         </View>
         <View style={tw`flex-col w-full gap-y-2`}>
-          <Text style={tw`ml-2 font-dosis text-sm`}>Password</Text>
+          <Text style={tw`ml-2 font-dosis text-sm default-text-color`}>Password</Text>
           <TextInput
-            style={tw`w-full px-3 font-dosis rounded-xl border border-neutral-300`}
+            style={tw`default-text-input`}
             secureTextEntry={true}
             value={password}
             onChangeText={value => {
@@ -82,7 +82,7 @@ const LoginScreen = (): JSX.Element => {
         <TouchableOpacity
           activeOpacity={0.5}
           style={tw.style(
-            'flex-row items-center justify-center w-full p-4 rounded-xl bg-[#222]',
+            'flex-row items-center justify-center w-full p-4 rounded-xl bg-accent-2',
             isLoading && 'opacity-50',
           )}
           onPress={handleLogin}>
@@ -93,11 +93,11 @@ const LoginScreen = (): JSX.Element => {
         <TouchableOpacity
           activeOpacity={0.5}
           style={tw`flex-row items-center justify-center w-full`}>
-          <Text style={tw`font-dosis`}>Forgot password?</Text>
+          <Text style={tw`font-dosis default-text-color`}>Forgot password?</Text>
         </TouchableOpacity>
         <TouchableOpacity
           activeOpacity={0.5}
-          style={tw`flex-row items-center justify-center w-full p-4 rounded-xl bg-[#474747]`}
+          style={tw`flex-row items-center justify-center w-full p-4 rounded-xl bg-accent-6`}
           onPress={() => {
             setDefault();
             useNavigate('RegisterScreen')

@@ -1,4 +1,4 @@
-// const plugin = require('tailwindcss/plugin');
+const plugin = require('tailwindcss/plugin');
 
 module.exports = {
   theme: {
@@ -6,6 +6,11 @@ module.exports = {
       colors: {
         'accent-1': '#FFFFFF',
         'accent-2': '#222222',
+        'accent-3': '#FFE1A8',
+        'accent-4': '#C9CBA3',
+        'accent-5': '#E26D5C',
+        'accent-6': '#723D46',
+        'accent-7': '#472D30',
       },
       fontFamily: {
         'vina-sans': 'VinaSans-Regular',
@@ -18,13 +23,11 @@ module.exports = {
     },
   },
   plugins: [
-    // plugin(({addUtilities}) => {
-    //   addUtilities({
-    //     'border-line-top': {
-    //       borderTopWidth: 1,
-    //       borderColor: '#2E3032',
-    //     },
-    //   });
-    // }),
+    plugin(({addUtilities}) => {
+      addUtilities({
+        '.default-text-color': `text-accent-2`,
+        '.default-text-input': `w-full px-3 font-dosis rounded-xl border border-[#FFD586] text-accent-2`,
+      });
+    }),
   ],
 };

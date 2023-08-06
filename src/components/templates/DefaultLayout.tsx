@@ -10,7 +10,7 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({
   children,
 }): JSX.Element => {
   return (
-    <SafeAreaView style={tw`flex-1 flex-col w-full bg-accent-1`}>
+    <SafeAreaView style={tw`flex-1 flex-col w-full bg-accent-3`}>
       {children}
     </SafeAreaView>
   );
