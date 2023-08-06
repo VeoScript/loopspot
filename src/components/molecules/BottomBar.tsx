@@ -5,7 +5,7 @@ import {Image, View, TouchableOpacity} from 'react-native';
 
 import {useNavigate} from '../../config/RootNavigation';
 
-const BottomBar = () => {
+const BottomBar = (): JSX.Element => {
   return (
     <View
       style={tw`relative flex-row items-center justify-around w-full bg-accent-3`}>

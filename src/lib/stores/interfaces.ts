@@ -20,3 +20,8 @@ export interface UserStoreProps {
   userId: string;
   setUserId: (value: string) => void;
 }
+
+export interface MenuModalProps {
+  isVisible: boolean;
+  setIsVisible: (value: boolean) => void;
+}
