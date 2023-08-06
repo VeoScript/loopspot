@@ -1,11 +1,5 @@
 import React from 'react';
-import StatusBarMain from './src/components/organisms/StatusBarMain';
-import * as screen from './src/shared/screens';
-
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {navigationRef} from './src/config/RootNavigation';
-import {useGuard} from './src/lib/hooks/useGuard';
+import AppStacks from './src/config/AppStacks';
 
 import {ConvexProvider, ConvexReactClient} from 'convex/react';
 import 'react-native-get-random-values';
@@ -15,36 +9,10 @@ const convex = new ConvexReactClient(CONVEX_URL, {
   unsavedChangesWarning: false,
 });
 
-const Stack = createNativeStackNavigator();
-
 const App = () => {
-  const isAuth = useGuard();
-
   return (
     <ConvexProvider client={convex}>
-      <NavigationContainer ref={navigationRef}>
-        <StatusBarMain
-          animated={false}
-          backgroundColor="#FFE1A8"
-          barStyle="dark-content"
-        />
-        <Stack.Navigator
-          screenOptions={{headerShown: false, animation: 'none'}}>
-          {!isAuth ? (
-            <>
-              <Stack.Screen name="LoginScreen" component={screen.LoginScreen} />
-              <Stack.Screen
-                name="RegisterScreen"
-                component={screen.RegisterScreen}
-              />
-            </>
-          ) : (
-            <>
-              <Stack.Screen name="HomeScreen" component={screen.HomeScreen} />
-            </>
-          )}
-        </Stack.Navigator>
-      </NavigationContainer>
+      <AppStacks />
     </ConvexProvider>
   );
 };

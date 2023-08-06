@@ -11,6 +11,7 @@ module.exports = {
         'accent-5': '#E26D5C',
         'accent-6': '#723D46',
         'accent-7': '#472D30',
+        'accent-8': '#FFD586',
       },
       fontFamily: {
         'vina-sans': 'VinaSans-Regular',
@@ -26,7 +27,7 @@ module.exports = {
     plugin(({addUtilities}) => {
       addUtilities({
         '.default-text-color': `text-accent-2`,
-        '.default-text-input': `w-full px-3 font-dosis rounded-xl border border-[#FFD586] text-accent-2`,
+        '.default-text-input': `w-full px-3 font-dosis rounded-xl border border-accent-8 text-accent-2`,
       });
     }),
   ],
