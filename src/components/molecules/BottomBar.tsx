@@ -23,7 +23,7 @@ const BottomBar = () => {
       </TouchableOpacity>
       <TouchableOpacity
         activeOpacity={0.5}
-        style={tw`-top-5 p-3 rounded-xl bg-accent-4`}
+        style={tw`p-3 rounded-xl bg-accent-8`}
         onPress={() => useNavigate('CreatePostScreen')}>
         <FeatherIcon name="plus" color="#222" size={25} />
       </TouchableOpacity>

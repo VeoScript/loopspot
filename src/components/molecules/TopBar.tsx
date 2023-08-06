@@ -31,7 +31,7 @@ const TopBar = () => {
   return (
     <View
       style={tw`flex-row items-center justify-between w-full px-3 py-5 bg-accent-3`}>
-      <View style={tw`flex-row items-center gap-x-3`}>
+      <View style={tw`flex-row items-center gap-x-5`}>
         <TouchableOpacity activeOpacity={0.5}>
           <FeatherIcon name="menu" color="#222" size={25} />
         </TouchableOpacity>

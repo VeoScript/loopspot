@@ -12,9 +12,9 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({
   children,
 }): JSX.Element => {
   return (
-    <SafeAreaView style={tw`relative flex-1 flex-col w-full bg-accent-3`}>
+    <SafeAreaView style={tw`relative flex-col w-full h-full bg-accent-3`}>
       <TopBar />
-      <View style={tw`flex-1 flex-col w-full`}>{children}</View>
+      <View style={tw`flex-1`}>{children}</View>
       <BottomBar />
     </SafeAreaView>
   );
