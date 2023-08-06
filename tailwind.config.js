@@ -12,6 +12,7 @@ module.exports = {
         'accent-6': '#723D46',
         'accent-7': '#472D30',
         'accent-8': '#FFD586',
+        'accent-9': '#CC8500',
       },
       fontFamily: {
         'vina-sans': 'VinaSans-Regular',
