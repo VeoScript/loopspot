@@ -1,8 +1,16 @@
 import React from 'react';
 import {StatusBar} from 'react-native';
 
+type BarStylesType = 'default' | 'dark-content' | 'light-content';
+
+export const BarStyles: Record<BarStylesType, BarStylesType> = {
+  default: 'default',
+  'dark-content': 'dark-content',
+  'light-content': 'light-content',
+};
+
 type BarStyleProps = {
-  barStyles: keyof typeof BarStyles;
+  barStyles: BarStylesType;
 };
 
 export interface StatusBarMainProps {
@@ -10,12 +18,6 @@ export interface StatusBarMainProps {
   backgroundColor: string;
   barStyle: BarStyleProps['barStyles'];
 }
-
-export const BarStyles = {
-  default: 'default',
-  'dark-content': 'dark-content',
-  'light-content': 'light-content',
-};
 
 type StatusBarMainComponent = (props: StatusBarMainProps) => JSX.Element;
 
