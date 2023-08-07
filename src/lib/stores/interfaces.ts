@@ -1,4 +1,8 @@
-export interface LoginStoreProps extends Omit<RegisterStoreProps, 'name' | 'setName' | 'repassword' | 'setRepassword' > {}
+export interface LoginStoreProps
+  extends Omit<
+    RegisterStoreProps,
+    'name' | 'setName' | 'repassword' | 'setRepassword'
+  > {}
 
 export interface RegisterStoreProps {
   isLoading: boolean;
@@ -24,4 +28,9 @@ export interface UserStoreProps {
 export interface MenuModalProps {
   isVisible: boolean;
   setIsVisible: (value: boolean) => void;
+}
+
+export interface UploadProfileProps extends MenuModalProps {
+  photo: any;
+  setPhoto: any;
 }

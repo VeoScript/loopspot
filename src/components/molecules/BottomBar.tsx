@@ -4,8 +4,15 @@ import {FeatherIcon} from '../../utils/Icons';
 import {Image, View, TouchableOpacity} from 'react-native';
 
 import {useNavigate} from '../../config/RootNavigation';
+import {userStore} from '../../lib/stores/auth';
+
+import {useQuery} from 'convex/react';
+import {api} from '../../../convex/_generated/api';
 
 const BottomBar = (): JSX.Element => {
+  const {userId} = userStore();
+  const profile = useQuery(api.upload.profilePhoto, {userId});
+
   return (
     <View
       style={tw`relative flex-row items-center justify-around w-full bg-accent-3`}>
@@ -37,13 +44,19 @@ const BottomBar = (): JSX.Element => {
         activeOpacity={0.5}
         style={tw`p-5`}
         onPress={() => useNavigate('ProfileScreen')}>
-        <Image
-          style={tw`rounded-full w-[30px] h-[30px] bg-accent-2`}
-          resizeMode="cover"
-          source={{
-            uri: `https://avatars.githubusercontent.com/u/107969452?v=4`,
-          }}
-        />
+        {profile?.url ? (
+          <Image
+            style={tw`rounded-full w-[25px] h-[25px] bg-accent-8`}
+            resizeMode="cover"
+            source={{
+              uri: `${profile?.url}`,
+            }}
+          />
+        ) : (
+          <View>
+            <FeatherIcon name="user" color="#222" size={25} />
+          </View>
+        )}
       </TouchableOpacity>
     </View>
   );
