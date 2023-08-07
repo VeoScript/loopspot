@@ -15,6 +15,7 @@ import type {
   FunctionReference,
 } from "convex/server";
 import type * as auth from "../auth";
+import type * as upload from "../upload";
 
 /**
  * A utility for referencing Convex functions in your app's API.
@@ -26,6 +27,7 @@ import type * as auth from "../auth";
  */
 declare const fullApi: ApiFromModules<{
   auth: typeof auth;
+  upload: typeof upload;
 }>;
 export declare const api: FilterApi<
   typeof fullApi,

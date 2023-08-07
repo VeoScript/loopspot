@@ -22,7 +22,7 @@ const MenuBar = (): JSX.Element => {
       onBackButtonPress={() => setIsVisible(false)}>
       <View style={tw`flex-col items-center w-full h-full bg-accent-3`}>
         <View
-          style={tw`flex-row items-center justify-between w-full p-3 border-b border-accent-8`}>
+          style={tw`flex-row items-center justify-between w-full p-5 border-b border-accent-8`}>
           <Text style={tw`default-text-color font-dosis-bold text-xl`}>
             Menu
           </Text>
@@ -34,7 +34,7 @@ const MenuBar = (): JSX.Element => {
         </View>
         <TouchableOpacity
           activeOpacity={0.5}
-          style={tw`flex-row w-full p-3 border-b border-accent-8`}
+          style={tw`flex-row w-full p-5 border-b border-accent-8`}
           onPress={() => {
             setIsVisible(false);
             useNavigate('HomeScreen');
@@ -43,7 +43,7 @@ const MenuBar = (): JSX.Element => {
         </TouchableOpacity>
         <TouchableOpacity
           activeOpacity={0.5}
-          style={tw`flex-row w-full p-3 border-b border-accent-8`}
+          style={tw`flex-row w-full p-5 border-b border-accent-8`}
           onPress={() => {
             setIsVisible(false);
             useNavigate('ProfileScreen');
@@ -54,26 +54,26 @@ const MenuBar = (): JSX.Element => {
         </TouchableOpacity>
         <TouchableOpacity
           activeOpacity={0.5}
-          style={tw`flex-row w-full p-3 border-b border-accent-8`}>
+          style={tw`flex-row w-full p-5 border-b border-accent-8`}>
           <Text style={tw`default-text-color font-dosis text-sm`}>
             Settings
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
           activeOpacity={0.5}
-          style={tw`flex-row w-full p-3 border-b border-accent-8`}>
+          style={tw`flex-row w-full p-5 border-b border-accent-8`}>
           <Text style={tw`default-text-color font-dosis text-sm`}>About</Text>
         </TouchableOpacity>
         <TouchableOpacity
           activeOpacity={0.5}
-          style={tw`flex-row w-full p-3 border-b border-accent-8`}>
+          style={tw`flex-row w-full p-5 border-b border-accent-8`}>
           <Text style={tw`default-text-color font-dosis text-sm`}>
             Terms of Service
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
           activeOpacity={0.5}
-          style={tw`flex-row w-full p-3 bg-red-500`}
+          style={tw`flex-row w-full p-5 bg-accent-6`}
           onPress={() => {
             setIsVisible(false);
             useLogoutMutation();
