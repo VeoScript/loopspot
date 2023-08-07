@@ -8,4 +8,9 @@ export default defineSchema({
     email: v.string(),
     password: v.string(),
   }),
+  profiles: defineTable({
+    body: v.string(),
+    authorId: v.string(),
+    format: v.string(),
+  }),
 });
