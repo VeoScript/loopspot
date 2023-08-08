@@ -2,6 +2,7 @@ import React from 'react';
 import DefaultLayout from '../../../components/templates/DefaultLayout';
 import BootSplashScreen from '../../../components/organisms/BootSplashScreen';
 import UploadProfile from '../../../components/molecules/Modals/UploadProfile';
+import UploadCover from '../../../components/molecules/Modals/UploadCover';
 import tw from '../../../styles/tailwind';
 import {FeatherIcon} from '../../../utils/Icons';
 import {Image, FlatList, View, Text, TouchableOpacity} from 'react-native';
@@ -10,7 +11,10 @@ import {launchImageLibrary} from 'react-native-image-picker';
 import {useBackHandler} from '../../../lib/hooks/useBackHandler';
 import {useNavigate} from '../../../config/RootNavigation';
 import {userStore} from '../../../lib/stores/auth';
-import {uploadProfileModalStore} from '../../../lib/stores/global';
+import {
+  uploadProfileModalStore,
+  uploadCoverModalStore,
+} from '../../../lib/stores/global';
 
 import {useQuery} from 'convex/react';
 import {api} from '../../../../convex/_generated/api';
@@ -20,17 +24,19 @@ import {posts} from '../../../shared/mock/feeds';
 const ProfileScreen = () => {
   const {userId} = userStore();
   const {setPhoto: setProfilePhoto, setIsVisible: setIsVisibleUploadProfile} = uploadProfileModalStore();
+  const {setPhoto: setCoverPhoto, setIsVisible: setIsVisibleUploadCover} = uploadCoverModalStore();
 
   const user = useQuery(api.auth.user, {userId});
   const profile = useQuery(api.upload.profilePhoto, {userId});
+  const cover = useQuery(api.upload.coverPhoto, {userId});
 
   useBackHandler(() => {
     useNavigate('HomeScreen');
   });
 
-  if (!user || !profile) return <BootSplashScreen />;
+  if (!user || !profile || !cover) return <BootSplashScreen />;
 
-  const handleChoosePhoto = (): void => {
+  const handleChooseProfilePhoto = (): void => {
     let options: any = {
       selectionLimit: 1,
       mediaType: 'photo',
@@ -46,6 +52,26 @@ const ProfileScreen = () => {
       if (response) {
         setProfilePhoto(response?.assets);
         setIsVisibleUploadProfile(true);
+      }
+    });
+  };
+
+  const handleChooseCoverPhoto = (): void => {
+    let options: any = {
+      selectionLimit: 1,
+      mediaType: 'photo',
+      includeBase64: false,
+    };
+
+    launchImageLibrary(options, response => {
+      if (response.didCancel) {
+        setCoverPhoto(null);
+        setIsVisibleUploadCover(false);
+        return;
+      }
+      if (response) {
+        setCoverPhoto(response?.assets);
+        setIsVisibleUploadCover(true);
       }
     });
   };
@@ -76,16 +102,20 @@ const ProfileScreen = () => {
           <TouchableOpacity
             activeOpacity={0.5}
             style={tw`absolute z-10 right-3 top-3 p-2 rounded-full bg-black bg-opacity-50`}
-            onPress={() => console.log('Change Cover Photo')}>
+            onPress={handleChooseCoverPhoto}>
             <FeatherIcon name="camera" color="#FFFFFF" size={18} />
           </TouchableOpacity>
-          <Image
-            style={tw`w-full h-full bg-accent-8`}
-            resizeMode="cover"
-            source={{
-              uri: `https://images.unsplash.com/photo-1523510468197-455cc987be86?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80`,
-            }}
-          />
+          {cover?.url ? (
+            <Image
+              style={tw`w-full h-full bg-accent-8`}
+              resizeMode="cover"
+              source={{
+                uri: `${cover?.url}`,
+              }}
+            />
+          ) : (
+            <View style={tw`w-full h-full bg-accent-8`} />
+          )}
           <View style={tw`absolute left-3 -bottom-8`}>
             {profile?.url ? (
               <Image
@@ -105,7 +135,7 @@ const ProfileScreen = () => {
             <TouchableOpacity
               activeOpacity={0.5}
               style={tw`absolute z-10 right-3 bottom-1 p-2 rounded-full bg-black bg-opacity-50`}
-              onPress={handleChoosePhoto}>
+              onPress={handleChooseProfilePhoto}>
               <FeatherIcon name="camera" color="#FFFFFF" size={18} />
             </TouchableOpacity>
           </View>
@@ -207,6 +237,7 @@ const ProfileScreen = () => {
         renderItem={renderData}
       />
       <UploadProfile authorId={profile.authorId} profileId={profile._id} />
+      <UploadCover authorId={cover.authorId} coverId={cover._id} />
     </DefaultLayout>
   );
 };

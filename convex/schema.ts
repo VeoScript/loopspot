@@ -13,4 +13,9 @@ export default defineSchema({
     authorId: v.string(),
     format: v.string(),
   }),
+  covers: defineTable({
+    body: v.string(),
+    authorId: v.string(),
+    format: v.string(),
+  }),
 });
