@@ -18,4 +18,12 @@ export default defineSchema({
     authorId: v.string(),
     format: v.string(),
   }),
+  posts: defineTable({
+    title: v.string(),
+    description: v.string(),
+    article: v.string(),
+    storageId: v.string(),
+    authorId: v.string(),
+    format: v.string(),
+  }),
 });
