@@ -73,6 +73,7 @@ const HomeScreen = (): JSX.Element => {
     <DefaultLayout>
       <FlatList
         keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
         ListEmptyComponent={listIsEmpty}
         data={posts}
         keyExtractor={itemKeyExtractor}

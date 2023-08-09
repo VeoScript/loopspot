@@ -15,7 +15,7 @@ const BottomBar = (): JSX.Element => {
 
   return (
     <View
-      style={tw`relative flex-row items-center justify-around w-full bg-accent-3`}>
+      style={tw`relative flex-row items-center justify-around w-full border-t border-accent-8 bg-accent-3`}>
       <TouchableOpacity
         activeOpacity={0.5}
         style={tw`p-5`}
