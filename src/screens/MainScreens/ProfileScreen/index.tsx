@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import DefaultLayout from '../../../components/templates/DefaultLayout';
 import BootSplashScreen from '../../../components/organisms/BootSplashScreen';
 import UploadProfile from '../../../components/molecules/Modals/UploadProfile';
@@ -7,6 +7,7 @@ import tw from '../../../styles/tailwind';
 import {FeatherIcon} from '../../../utils/Icons';
 import {Image, FlatList, View, Text, TouchableOpacity} from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
+import RenderHtml from 'react-native-render-html';
 
 import {useBackHandler} from '../../../lib/hooks/useBackHandler';
 import {useNavigate} from '../../../config/RootNavigation';
@@ -19,16 +20,19 @@ import {
 import {useQuery} from 'convex/react';
 import {api} from '../../../../convex/_generated/api';
 
-import {posts} from '../../../shared/mock/feeds';
-
 const ProfileScreen = () => {
   const {userId} = userStore();
-  const {setPhoto: setProfilePhoto, setIsVisible: setIsVisibleUploadProfile} = uploadProfileModalStore();
-  const {setPhoto: setCoverPhoto, setIsVisible: setIsVisibleUploadCover} = uploadCoverModalStore();
+  const {setPhoto: setProfilePhoto, setIsVisible: setIsVisibleUploadProfile} =
+    uploadProfileModalStore();
+  const {setPhoto: setCoverPhoto, setIsVisible: setIsVisibleUploadCover} =
+    uploadCoverModalStore();
 
   const user = useQuery(api.auth.user, {userId});
   const profile = useQuery(api.upload.profilePhoto, {userId});
   const cover = useQuery(api.upload.coverPhoto, {userId});
+  const posts = useQuery(api.post.posts, {userId});
+
+  // console.log("posts", posts)
 
   useBackHandler(() => {
     useNavigate('HomeScreen');
@@ -85,13 +89,25 @@ const ProfileScreen = () => {
 
   const listIsEmpty = (): JSX.Element => {
     return (
-      <View
-        style={tw`flex-1 flex-col items-center justify-center w-full my-3 p-3`}>
-        <Text
-          style={tw`uppercase default-text-color font-dosis-bold text-sm text-neutral-500`}>
-          No post as of now...
-        </Text>
-      </View>
+      <>
+        {!posts ? (
+          <View
+            style={tw`flex-1 flex-col items-center justify-center w-full my-3 p-3`}>
+            <Text
+              style={tw`uppercase default-text-color font-dosis-bold text-sm text-neutral-500`}>
+              Loading...
+            </Text>
+          </View>
+        ) : (
+          <View
+            style={tw`flex-1 flex-col items-center justify-center w-full my-3 p-3`}>
+            <Text
+              style={tw`uppercase default-text-color font-dosis-bold text-sm text-neutral-500`}>
+              No post as of now...
+            </Text>
+          </View>
+        )}
+      </>
     );
   };
 
@@ -177,7 +193,7 @@ const ProfileScreen = () => {
   };
 
   const renderData = (item: any): JSX.Element => {
-    const {image, title, description, likes, comments} = item?.item;
+    const {url, title, description, article} = item?.item;
 
     return (
       <TouchableOpacity
@@ -187,7 +203,7 @@ const ProfileScreen = () => {
           style={tw`w-full h-[15rem] rounded-3xl bg-accent-8`}
           resizeMode="cover"
           source={{
-            uri: `${image}`,
+            uri: `${url}`,
           }}
         />
         <View style={tw`flex-col w-full px-3 gap-y-2`}>
@@ -201,17 +217,13 @@ const ProfileScreen = () => {
                 activeOpacity={0.5}
                 style={tw`flex-row items-center gap-x-1`}>
                 <FeatherIcon name="heart" color="#E39400" size={18} />
-                <Text style={tw`font-dosis text-accent-9 text-sm`}>
-                  {likes}
-                </Text>
+                <Text style={tw`font-dosis text-accent-9 text-sm`}>0</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 activeOpacity={0.5}
                 style={tw`flex-row items-center gap-x-1`}>
                 <FeatherIcon name="message-circle" color="#E39400" size={18} />
-                <Text style={tw`font-dosis text-accent-9 text-sm`}>
-                  {comments}
-                </Text>
+                <Text style={tw`font-dosis text-accent-9 text-sm`}>0</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -233,7 +245,7 @@ const ProfileScreen = () => {
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={listIsEmpty}
         ListHeaderComponent={renderHeader}
-        data={posts}
+        data={!posts ? [] : posts}
         keyExtractor={itemKeyExtractor}
         renderItem={renderData}
       />
