@@ -4,6 +4,7 @@ import BottomBar from '../molecules/BottomBar';
 import MenuBar from '../molecules/MenuBar';
 import tw from '../../styles/tailwind';
 import {SafeAreaView, View} from 'react-native';
+import {useCheckKeyboard} from '../../lib/hooks/useCheckKeyboard';
 
 interface DefaultLayoutProps {
   children: React.ReactNode;
@@ -12,12 +13,14 @@ interface DefaultLayoutProps {
 const DefaultLayout: React.FC<DefaultLayoutProps> = ({
   children,
 }): JSX.Element => {
+  const isDisplayKeyboard = useCheckKeyboard();
+
   return (
     <SafeAreaView style={tw`relative flex-col w-full h-full bg-accent-3`}>
       <TopBar />
       <MenuBar />
       <View style={tw`flex-1`}>{children}</View>
-      <BottomBar />
+      {!isDisplayKeyboard && <BottomBar />}
     </SafeAreaView>
   );
 };
