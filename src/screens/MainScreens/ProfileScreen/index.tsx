@@ -230,6 +230,7 @@ const ProfileScreen = () => {
     <DefaultLayout>
       <FlatList
         keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
         ListEmptyComponent={listIsEmpty}
         ListHeaderComponent={renderHeader}
         data={posts}
