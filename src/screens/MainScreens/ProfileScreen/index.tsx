@@ -30,7 +30,7 @@ const ProfileScreen = () => {
   const user = useQuery(api.auth.user, {userId});
   const profile = useQuery(api.upload.profilePhoto, {userId});
   const cover = useQuery(api.upload.coverPhoto, {userId});
-  const posts = useQuery(api.post.posts, {userId});
+  const posts = useQuery(api.post.userPosts, {userId});
 
   useBackHandler(() => {
     useNavigate('HomeScreen');
