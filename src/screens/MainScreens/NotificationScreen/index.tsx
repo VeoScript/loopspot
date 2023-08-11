@@ -5,7 +5,7 @@ import {View, Text} from 'react-native';
 
 const NotificationScreen = () => {
   return (
-    <DefaultLayout>
+    <DefaultLayout title="Notifications">
       <View style={tw`flex-col items-center justify-center w-full h-full`}>
         <Text style={tw`default-text-color font-dosis text-xl`}>
           Notification Screen

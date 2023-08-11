@@ -3,6 +3,7 @@ import DefaultLayout from '../../../components/templates/DefaultLayout';
 import BootSplashScreen from '../../../components/organisms/BootSplashScreen';
 import UploadProfile from '../../../components/molecules/Modals/UploadProfile';
 import UploadCover from '../../../components/molecules/Modals/UploadCover';
+import PostCard from '../../../components/molecules/Cards/PostCard';
 import tw from '../../../styles/tailwind';
 import {FeatherIcon} from '../../../utils/Icons';
 import {Image, FlatList, View, Text, TouchableOpacity} from 'react-native';
@@ -21,10 +22,8 @@ import {api} from '../../../../convex/_generated/api';
 
 const ProfileScreen = () => {
   const {userId} = userStore();
-  const {setPhoto: setProfilePhoto, setIsVisible: setIsVisibleUploadProfile} =
-    uploadProfileModalStore();
-  const {setPhoto: setCoverPhoto, setIsVisible: setIsVisibleUploadCover} =
-    uploadCoverModalStore();
+  const {setPhoto: setProfilePhoto, setIsVisible: setIsVisibleUploadProfile} = uploadProfileModalStore();
+  const {setPhoto: setCoverPhoto, setIsVisible: setIsVisibleUploadCover} = uploadCoverModalStore();
 
   const user = useQuery(api.auth.user, {userId});
   const profile = useQuery(api.upload.profilePhoto, {userId});
@@ -190,53 +189,12 @@ const ProfileScreen = () => {
   };
 
   const renderData = (item: any): JSX.Element => {
-    const {url, title, description, article} = item?.item;
-
-    return (
-      <TouchableOpacity
-        activeOpacity={0.8}
-        style={tw`flex-col w-full p-3 gap-y-3`}>
-        <Image
-          style={tw`w-full h-[15rem] rounded-3xl bg-accent-8`}
-          resizeMode="cover"
-          source={{
-            uri: `${url}`,
-          }}
-        />
-        <View style={tw`flex-col w-full px-3 gap-y-2`}>
-          <View
-            style={tw`flex-row items-center justify-between w-full gap-x-2`}>
-            <Text style={tw`default-text-color font-dosis-bold text-base`}>
-              {title}
-            </Text>
-            <View style={tw`flex-row items-center gap-x-2`}>
-              <TouchableOpacity
-                activeOpacity={0.5}
-                style={tw`flex-row items-center gap-x-1`}>
-                <FeatherIcon name="heart" color="#E39400" size={18} />
-                <Text style={tw`font-dosis text-accent-9 text-sm`}>0</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                activeOpacity={0.5}
-                style={tw`flex-row items-center gap-x-1`}>
-                <FeatherIcon name="message-circle" color="#E39400" size={18} />
-                <Text style={tw`font-dosis text-accent-9 text-sm`}>0</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-          <View
-            style={tw`flex-row items-center justify-between w-full gap-x-2`}>
-            <Text style={tw`default-text-color font-dosis text-sm`}>
-              {description}
-            </Text>
-          </View>
-        </View>
-      </TouchableOpacity>
-    );
+    const {_id, url, title, description} = item?.item;
+    return <PostCard id={_id} url={url} title={title} description={description} />;
   };
 
   return (
-    <DefaultLayout>
+    <DefaultLayout title="My Profile">
       <FlatList
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}

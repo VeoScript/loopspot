@@ -104,8 +104,8 @@ const CreatePostScreen = () => {
   const handleHead3 = () => <Text style={tw`text-accent-2 text-base`}>H3</Text>;
 
   return (
-    <DefaultLayout>
-      <ScrollView style={tw`flex-col w-full h-full`}>
+    <DefaultLayout title="Create Post">
+      <ScrollView showsVerticalScrollIndicator={false} style={tw`flex-col w-full h-full`}>
         <View style={tw`relative flex-col items-center w-full`}>
           {photo ? (
             <Image
@@ -136,13 +136,13 @@ const CreatePostScreen = () => {
         </View>
         <View style={tw`flex-col w-full`}>
           <TextInput
-            style={tw`flex-row items-center justify-center w-full p-3 font-serif text-sm text-accent-2 border-b border-accent-3 bg-accent-1`}
+            style={tw`flex-row items-center justify-center w-full p-3 font-serif text-sm text-accent-2 border-b border-neutral-300 bg-accent-1`}
             placeholder='Write your title...'
             placeholderTextColor="#A5A5A5"
             value={title}
             onChangeText={value => setTitle(value)}/>
           <TextInput
-            style={tw`flex-row items-center justify-center w-full p-3 font-serif text-sm text-accent-2 border-b border-accent-3 bg-accent-1`}
+            style={tw`flex-row items-center justify-center w-full p-3 font-serif text-sm text-accent-2 border-b border-neutral-300 bg-accent-1`}
             multiline
             placeholder='Write your description...'
             placeholderTextColor="#A5A5A5"

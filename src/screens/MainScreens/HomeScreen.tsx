@@ -70,7 +70,7 @@ const HomeScreen = (): JSX.Element => {
   };
 
   return (
-    <DefaultLayout>
+    <DefaultLayout title="My Feed">
       <FlatList
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
