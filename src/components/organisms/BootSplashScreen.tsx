@@ -1,4 +1,5 @@
 import React from 'react';
+import LoadingDefault from './LoadingDisplay/LoadingDefault';
 import tw from '../../styles/tailwind';
 import {SafeAreaView, View, Text, ActivityIndicator} from 'react-native';
 
@@ -14,10 +15,7 @@ const BootSplashScreen = () => {
           Blog type social media app
         </Text>
       </View>
-      <View style={tw`flex-col items-center w-full gap-y-1`}>
-        <ActivityIndicator color="#E26D5C" size={50} />
-        <Text style={tw`default-text-color font-dosis`}>Just wait...</Text>
-      </View>
+      <LoadingDefault />
     </SafeAreaView>
   );
 };

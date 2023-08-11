@@ -9,7 +9,7 @@ import {useNavigate} from '../../config/RootNavigation';
 import {menuModalStore} from '../../lib/stores/global';
 
 interface TopBarProps {
-  title: string;
+  title: string | undefined;
 }
 
 type TopBarType = (props: TopBarProps) => JSX.Element;

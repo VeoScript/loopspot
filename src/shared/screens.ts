@@ -6,6 +6,7 @@ import SearchScreen from '../screens/MainScreens/SearchScreen';
 import InspiredScreen from '../screens/MainScreens/InspiredScreen';
 import ProfileScreen from '../screens/MainScreens/ProfileScreen';
 import CreatePostScreen from '../screens/MainScreens/CreatePostScreen';
+import ViewPostScreen from '../screens/MainScreens/ViewPostScreen';
 
 export {
   LoginScreen,
@@ -16,4 +17,5 @@ export {
   InspiredScreen,
   ProfileScreen,
   CreatePostScreen,
+  ViewPostScreen,
 };

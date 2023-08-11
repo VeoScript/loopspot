@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import DefaultLayout from '../../../components/templates/DefaultLayout';
+import LoadingDefault from '../../../components/organisms/LoadingDisplay/LoadingDefault';
 import BootSplashScreen from '../../../components/organisms/BootSplashScreen';
 import UploadProfile from '../../../components/molecules/Modals/UploadProfile';
 import UploadCover from '../../../components/molecules/Modals/UploadCover';
@@ -19,11 +20,12 @@ import {
 
 import {useQuery} from 'convex/react';
 import {api} from '../../../../convex/_generated/api';
-
 const ProfileScreen = () => {
   const {userId} = userStore();
-  const {setPhoto: setProfilePhoto, setIsVisible: setIsVisibleUploadProfile} = uploadProfileModalStore();
-  const {setPhoto: setCoverPhoto, setIsVisible: setIsVisibleUploadCover} = uploadCoverModalStore();
+  const {setPhoto: setProfilePhoto, setIsVisible: setIsVisibleUploadProfile} =
+    uploadProfileModalStore();
+  const {setPhoto: setCoverPhoto, setIsVisible: setIsVisibleUploadCover} =
+    uploadCoverModalStore();
 
   const user = useQuery(api.auth.user, {userId});
   const profile = useQuery(api.upload.profilePhoto, {userId});
@@ -87,13 +89,7 @@ const ProfileScreen = () => {
     return (
       <>
         {!posts ? (
-          <View
-            style={tw`flex-1 flex-col items-center justify-center w-full my-3 p-3`}>
-            <Text
-              style={tw`uppercase default-text-color font-dosis-bold text-sm text-neutral-500`}>
-              Loading...
-            </Text>
-          </View>
+          <LoadingDefault />
         ) : (
           <View
             style={tw`flex-1 flex-col items-center justify-center w-full my-3 p-3`}>
@@ -190,7 +186,9 @@ const ProfileScreen = () => {
 
   const renderData = (item: any): JSX.Element => {
     const {_id, url, title, description} = item?.item;
-    return <PostCard id={_id} url={url} title={title} description={description} />;
+    return (
+      <PostCard id={_id} url={url} title={title} description={description} />
+    );
   };
 
   return (
