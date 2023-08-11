@@ -10,9 +10,10 @@ export const post = query({
     postId: v.string(),
   },
   handler: async (ctx, args) => {
-    const post = await ctx.db.query("posts")
-    .filter((q) => q.eq(q.field("_id"), args.postId))
-    .unique();
+    const post = await ctx.db
+      .query('posts')
+      .filter(q => q.eq(q.field('_id'), args.postId))
+      .unique();
 
     return {
       _id: post?._id,
@@ -21,12 +22,30 @@ export const post = query({
       description: post?.description,
       article: post?.article,
       authorId: post?.authorId,
-      url: post?.format === 'image' ? await ctx.storage.getUrl(post.storageId) : ''
-    }
+      url:
+        post?.format === 'image'
+          ? await ctx.storage.getUrl(post.storageId)
+          : '',
+    };
   },
 });
 
 export const posts = query({
+  handler: async ctx => {
+    const posts = await ctx.db.query('posts').order('desc').collect();
+
+    return Promise.all(
+      posts.map(async post => ({
+        ...post,
+        ...(post.format === 'image'
+          ? {url: await ctx.storage.getUrl(post.storageId)}
+          : {}),
+      })),
+    );
+  },
+});
+
+export const userPosts = query({
   args: {
     userId: v.string(),
   },
