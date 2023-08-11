@@ -7,7 +7,7 @@ import {SafeAreaView, View} from 'react-native';
 import {useCheckKeyboard} from '../../lib/hooks/useCheckKeyboard';
 
 interface DefaultLayoutProps {
-  title: string;
+  title: string | undefined;
   children: React.ReactNode;
 }
 
