@@ -33,6 +33,7 @@ const AppStacks = () => {
             <Stack.Screen name="InspiredScreen" component={screen.InspiredScreen} />
             <Stack.Screen name="ProfileScreen" component={screen.ProfileScreen} />
             <Stack.Screen name="CreatePostScreen" component={screen.CreatePostScreen} />
+            <Stack.Screen name="ViewPostScreen" component={screen.ViewPostScreen} />
           </>
         )}
       </Stack.Navigator>
