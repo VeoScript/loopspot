@@ -12,7 +12,7 @@ const SearchScreen = () => {
   });
 
   return (
-    <DefaultLayout>
+    <DefaultLayout title="Search">
       <View style={tw`flex-col items-center justify-center w-full h-full`}>
         <Text style={tw`default-text-color font-dosis text-xl`}>
           Search Screen

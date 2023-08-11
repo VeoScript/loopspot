@@ -7,17 +7,19 @@ import {SafeAreaView, View} from 'react-native';
 import {useCheckKeyboard} from '../../lib/hooks/useCheckKeyboard';
 
 interface DefaultLayoutProps {
+  title: string;
   children: React.ReactNode;
 }
 
 const DefaultLayout: React.FC<DefaultLayoutProps> = ({
+  title,
   children,
 }): JSX.Element => {
   const isDisplayKeyboard = useCheckKeyboard();
 
   return (
     <SafeAreaView style={tw`relative flex-col w-full h-full bg-accent-3`}>
-      <TopBar />
+      <TopBar title={title} />
       <MenuBar />
       <View style={tw`flex-1`}>{children}</View>
       {!isDisplayKeyboard && <BottomBar />}

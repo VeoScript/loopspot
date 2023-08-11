@@ -8,29 +8,14 @@ import {useNavigate} from '../../config/RootNavigation';
 
 import {menuModalStore} from '../../lib/stores/global';
 
-const TopBar = (): JSX.Element => {
-  const {name} = useRoute();
+interface TopBarProps {
+  title: string;
+}
 
+type TopBarType = (props: TopBarProps) => JSX.Element;
+
+const TopBar: TopBarType = ({title}): JSX.Element => {
   const {isVisible, setIsVisible} = menuModalStore();
-
-  const renderCurrentRoute = (current: string) => {
-    switch (current) {
-      case 'HomeScreen':
-        return 'My Feed';
-      case 'NotificationScreen':
-        return 'Notifications';
-      case 'SearchScreen':
-        return 'Search';
-      case 'InspiredScreen':
-        return 'Inspired Posts';
-      case 'ProfileScreen':
-        return 'My Profile';
-      case 'CreatePostScreen':
-        return 'Create Post';
-      default:
-        return 'Screen Name';
-    }
-  };
 
   return (
     <View
@@ -44,7 +29,7 @@ const TopBar = (): JSX.Element => {
           <FeatherIcon name="menu" color="#222" size={25} />
         </TouchableOpacity>
         <Text style={tw`default-text-color font-dosis-bold text-xl`}>
-          {renderCurrentRoute(name)}
+          {title}
         </Text>
       </View>
       <TouchableOpacity
