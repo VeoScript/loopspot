@@ -37,7 +37,7 @@ const HomeScreen = (): JSX.Element => {
   const listIsEmpty = (): JSX.Element => {
     return (
       <>
-        {!feeds ? (
+        {isLoading ? (
           <LoadingDefault />
         ) : (
           <View
@@ -74,7 +74,9 @@ const HomeScreen = (): JSX.Element => {
         keyExtractor={itemKeyExtractor}
         renderItem={renderData}
         onEndReached={() => loadMore(5)}
-        ListFooterComponent={isLoading ? renderSpinner : null}
+        ListFooterComponent={
+          isLoading && feeds.length != 0 ? renderSpinner : null
+        }
       />
     </DefaultLayout>
   );

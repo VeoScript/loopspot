@@ -23,7 +23,7 @@ const HTMLRenderer: HTMLRendererType = ({html}) => {
 
   return (
     <MemoizedRenderHtml
-      baseStyle={tw`default-text-color text-base`}
+      baseStyle={tw`default-text-color py-3`}
       tagsStyles={tagsStyles}
       contentWidth={width}
       source={{html: html}}
