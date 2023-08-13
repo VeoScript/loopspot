@@ -6,6 +6,13 @@ export const menuModalStore = create<type.MenuModalProps>(set => ({
   setIsVisible: (value: boolean) => set(() => ({isVisible: value})),
 }));
 
+export const viewImageModalStore = create<type.ViewImageModalProps>(set => ({
+  image: '',
+  setImage: (value: string) => set(() => ({image: value})),
+  isVisible: false,
+  setIsVisible: (value: boolean) => set(() => ({isVisible: value})),
+}));
+
 export const uploadProfileModalStore = create<type.UploadImageProps>(set => ({
   isVisible: false,
   setIsVisible: (value: boolean) => set(() => ({isVisible: value})),

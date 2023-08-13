@@ -4,6 +4,7 @@ import LoadingDefault from '../../../components/organisms/LoadingDisplay/Loading
 import BootSplashScreen from '../../../components/organisms/BootSplashScreen';
 import UploadProfile from '../../../components/molecules/Modals/UploadProfile';
 import UploadCover from '../../../components/molecules/Modals/UploadCover';
+import ViewImage from '../../../components/molecules/Modals/ViewImage';
 import PostCard from '../../../components/molecules/Cards/PostCard';
 import FollowerHolder from '../../../components/atoms/FollowerHolder';
 import tw from '../../../styles/tailwind';
@@ -23,6 +24,7 @@ import {userStore} from '../../../lib/stores/auth';
 import {
   uploadProfileModalStore,
   uploadCoverModalStore,
+  viewImageModalStore,
 } from '../../../lib/stores/global';
 
 import {useQuery, usePaginatedQuery} from 'convex/react';
@@ -33,6 +35,7 @@ const ProfileScreen = (): JSX.Element => {
   const userProfileId = route.params?.userId;
 
   const {userId} = userStore();
+  const {setImage, setIsVisible} = viewImageModalStore();
   const {setPhoto: setProfilePhoto, setIsVisible: setIsVisibleUploadProfile} = uploadProfileModalStore();
   const {setPhoto: setCoverPhoto, setIsVisible: setIsVisibleUploadCover} = uploadCoverModalStore();
 
@@ -130,17 +133,23 @@ const ProfileScreen = (): JSX.Element => {
     );
   };
 
-  const renderHeader = (): JSX.Element => {
-    return (
-      <>
-        <View style={tw`relative flex-row justify-start w-full h-[10rem]`}>
+  const renderHeader: JSX.Element = (
+    <>
+      <View style={tw`relative flex-row justify-start w-full h-[10rem]`}>
+        <TouchableOpacity
+          activeOpacity={0.5}
+          style={tw`absolute z-10 right-3 top-3 p-2 rounded-full bg-black bg-opacity-50`}
+          onPress={handleChooseCoverPhoto}>
+          <FeatherIcon name="camera" color="#FFFFFF" size={18} />
+        </TouchableOpacity>
+        {cover?.url ? (
           <TouchableOpacity
             activeOpacity={0.5}
-            style={tw`absolute z-10 right-3 top-3 p-2 rounded-full bg-black bg-opacity-50`}
-            onPress={handleChooseCoverPhoto}>
-            <FeatherIcon name="camera" color="#FFFFFF" size={18} />
-          </TouchableOpacity>
-          {cover?.url ? (
+            style={tw`w-full h-full`}
+            onPress={() => {
+              setImage(String(cover?.url));
+              setIsVisible(true);
+            }}>
             <Image
               style={tw`w-full h-full bg-accent-8`}
               resizeMode="cover"
@@ -148,11 +157,18 @@ const ProfileScreen = (): JSX.Element => {
                 uri: `${cover?.url}`,
               }}
             />
-          ) : (
-            <View style={tw`w-full h-full bg-accent-8`} />
-          )}
-          <View style={tw`absolute left-3 -bottom-8`}>
-            {profile?.url ? (
+          </TouchableOpacity>
+        ) : (
+          <View style={tw`w-full h-full bg-accent-8`} />
+        )}
+        <View style={tw`absolute left-3 -bottom-8`}>
+          {profile?.url ? (
+            <TouchableOpacity
+              activeOpacity={0.5}
+              onPress={() => {
+                setImage(String(profile?.url));
+                setIsVisible(true);
+              }}>
               <Image
                 style={tw`w-[9rem] h-[9rem] rounded-full border-2 border-accent-3 bg-accent-8`}
                 resizeMode="cover"
@@ -160,45 +176,45 @@ const ProfileScreen = (): JSX.Element => {
                   uri: `${profile?.url}`,
                 }}
               />
-            ) : (
-              <Image
-                style={tw`w-[9rem] h-[9rem] rounded-full border-2 border-accent-3 bg-accent-8`}
-                resizeMode="cover"
-                source={require('../../../assets/images/profile_placeholder.png')}
-              />
-            )}
-            <TouchableOpacity
-              activeOpacity={0.5}
-              style={tw`absolute z-10 right-3 bottom-1 p-2 rounded-full bg-black bg-opacity-50`}
-              onPress={handleChooseProfilePhoto}>
-              <FeatherIcon name="camera" color="#FFFFFF" size={18} />
             </TouchableOpacity>
-          </View>
+          ) : (
+            <Image
+              style={tw`w-[9rem] h-[9rem] rounded-full border-2 border-accent-3 bg-accent-8`}
+              resizeMode="cover"
+              source={require('../../../assets/images/profile_placeholder.png')}
+            />
+          )}
+          <TouchableOpacity
+            activeOpacity={0.5}
+            style={tw`absolute z-10 right-3 bottom-1 p-2 rounded-full bg-black bg-opacity-50`}
+            onPress={handleChooseProfilePhoto}>
+            <FeatherIcon name="camera" color="#FFFFFF" size={18} />
+          </TouchableOpacity>
         </View>
-        <View style={tw`flex-col w-full mt-10`}>
-          <View style={tw`flex-col w-full px-3`}>
-            <Text style={tw`default-text-color font-dosis-bold text-xl`}>
-              {user.name}
-            </Text>
-            <Text style={tw`default-text-color font-dosis text-sm`}>
-              Your bio display here...
-            </Text>
-          </View>
-          <View
-            style={tw`flex-row items-center justify-between w-full px-3 py-3 border-b border-accent-8`}>
-            <FollowerHolder />
-            <TouchableOpacity
-              activeOpacity={0.5}
-              style={tw`w-auto rounded-xl px-5 py-2 bg-accent-2`}>
-              <Text style={tw`font-dosis text-xs text-accent-1`}>
-                Edit Profile
-              </Text>
-            </TouchableOpacity>
-          </View>
+      </View>
+      <View style={tw`flex-col w-full mt-10`}>
+        <View style={tw`flex-col w-full px-3`}>
+          <Text style={tw`default-text-color font-dosis-bold text-xl`}>
+            {user.name}
+          </Text>
+          <Text style={tw`default-text-color font-dosis text-sm`}>
+            Your bio display here...
+          </Text>
         </View>
-      </>
-    );
-  };
+        <View
+          style={tw`flex-row items-center justify-between w-full px-3 py-3 border-b border-accent-8`}>
+          <FollowerHolder />
+          <TouchableOpacity
+            activeOpacity={0.5}
+            style={tw`w-auto rounded-xl px-5 py-2 bg-accent-2`}>
+            <Text style={tw`font-dosis text-xs text-accent-1`}>
+              Edit Profile
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </>
+  )
 
   const renderData = ({item}: any): JSX.Element => {
     const {_id, title, description, storageId} = item;
@@ -237,6 +253,7 @@ const ProfileScreen = (): JSX.Element => {
         coverId={cover._id}
         previousStorageId={String(cover.storageId)}
       />
+      <ViewImage />
     </DefaultLayout>
   );
 };
