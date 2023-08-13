@@ -14,6 +14,7 @@ import {Id} from '../../../../convex/_generated/dataModel';
 interface IProps {
   authorId: string | undefined;
   profileId: Id<'profiles'> | undefined | any;
+  previousStorageId: string;
 }
 
 type UploadProfileProps = (props: IProps) => JSX.Element;
@@ -21,6 +22,7 @@ type UploadProfileProps = (props: IProps) => JSX.Element;
 const UploadProfile: UploadProfileProps = ({
   authorId,
   profileId,
+  previousStorageId,
 }): JSX.Element => {
   const {userId} = userStore();
   const {photo, setPhoto, isVisible, setIsVisible} = uploadProfileModalStore();
@@ -30,6 +32,7 @@ const UploadProfile: UploadProfileProps = ({
   const generateUploadUrl = useMutation(api.upload.generateUploadUrl);
   const sendProfileImage = useMutation(api.upload.sendProfileImage);
   const updateProfileImage = useMutation(api.upload.updateProfileImage);
+  const deletePreviousImage = useMutation(api.upload.deletePreviousImage);
 
   const onClose = (): void => {
     if (!isLoading) {
@@ -43,6 +46,12 @@ const UploadProfile: UploadProfileProps = ({
       setIsLoading(true);
 
       const image: any = photo[0];
+
+      if (image.fileSize > 2097152) {
+        Toast('Selected photo size exceeds 2 MB. Choose another one.');
+        setIsLoading(false);
+        return;
+      }
 
       // Step 1: Get a short-lived upload URL
       const postUrl = await generateUploadUrl();
@@ -68,6 +77,9 @@ const UploadProfile: UploadProfileProps = ({
       } else {
         await sendProfileImage({storageId, authorId: userId});
       }
+
+      // Step 4: Delete the previous profile image to saves files in the file storage
+      await deletePreviousImage({storageId: previousStorageId})
 
       setIsLoading(false);
       setPhoto(null);

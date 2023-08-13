@@ -14,6 +14,7 @@ export const profilePhoto = query({
     return {
       _id: profile?._id,
       authorId: profile?.authorId,
+      storageId: profile?.body,
       url: profile?.format === 'image' ? await ctx.storage.getUrl(profile.body) : ''
     }
   },
@@ -32,6 +33,7 @@ export const coverPhoto = query({
     return {
       _id: cover?._id,
       authorId: cover?.authorId,
+      storageId: cover?.body,
       url: cover?.format === 'image' ? await ctx.storage.getUrl(cover.body) : ''
     }
   },
@@ -78,5 +80,12 @@ export const updateCoverImage = mutation({
     await ctx.db.patch(args.coverId, {
       body: args.storageId,
     });
+  },
+});
+
+export const deletePreviousImage = mutation({
+  args: {storageId: v.string()},
+  handler: async (ctx, args) => {
+    await ctx.storage.delete(args.storageId);
   },
 });
