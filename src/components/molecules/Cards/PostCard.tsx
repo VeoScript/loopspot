@@ -5,28 +5,43 @@ import {TouchableOpacity, Image, View, Text} from 'react-native';
 
 import {useNavigate} from '../../../config/RootNavigation';
 
+import {useQuery} from 'convex/react';
+import {api} from '../../../../convex/_generated/api';
+
 export interface PostCardProps {
   id: string;
-  url: string;
+  url?: string;
   title: string;
   description: string;
+  storageId: string;
 }
 
 type PostCardType = (props: PostCardProps) => JSX.Element;
 
-const PostCard: PostCardType = ({id, url, title, description}): JSX.Element => {
+const PostCard: PostCardType = ({
+  id,
+  title,
+  description,
+  storageId,
+}): JSX.Element => {
+  const getPostImage = useQuery(api.post.useGetPostImages, {storageId});
+
   return (
     <TouchableOpacity
       activeOpacity={0.8}
       style={tw`flex-col w-full p-3 gap-y-3`}
       onPress={() => useNavigate('ViewPostScreen', {id})}>
-      <Image
-        style={tw`w-full h-[15rem] rounded-3xl bg-accent-8`}
-        resizeMode="cover"
-        source={{
-          uri: `${url}`,
-        }}
-      />
+      {getPostImage ? (
+        <Image
+          style={tw`w-full h-[15rem] rounded-3xl bg-accent-8`}
+          resizeMode="cover"
+          source={{
+            uri: `${getPostImage}`,
+          }}
+        />
+      ) : (
+        <View style={tw`w-full h-[15rem] rounded-3xl bg-accent-8`} />
+      )}
       <View style={tw`flex-col w-full px-3 gap-y-2`}>
         <View style={tw`flex-row items-center justify-between w-full gap-x-2`}>
           <Text style={tw`default-text-color font-dosis-bold text-base`}>

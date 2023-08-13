@@ -8,7 +8,7 @@ import PostCard from '../../../components/molecules/Cards/PostCard';
 import FollowerHolder from '../../../components/atoms/FollowerHolder';
 import tw from '../../../styles/tailwind';
 import {FeatherIcon} from '../../../utils/Icons';
-import {Image, FlatList, View, Text, TouchableOpacity} from 'react-native';
+import {Image, FlatList, View, Text, TouchableOpacity, ActivityIndicator} from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
 
 import {useRoute} from '@react-navigation/native';
@@ -18,7 +18,7 @@ import {
   uploadCoverModalStore,
 } from '../../../lib/stores/global';
 
-import {useQuery} from 'convex/react';
+import {useQuery, usePaginatedQuery} from 'convex/react';
 import {api} from '../../../../convex/_generated/api';
 
 const ProfileScreen = (): JSX.Element => {
@@ -29,10 +29,24 @@ const ProfileScreen = (): JSX.Element => {
   const {setPhoto: setProfilePhoto, setIsVisible: setIsVisibleUploadProfile} = uploadProfileModalStore();
   const {setPhoto: setCoverPhoto, setIsVisible: setIsVisibleUploadCover} = uploadCoverModalStore();
 
-  const user = useQuery(api.auth.user, {userId: userProfileId ? String(userProfileId) : userId});
-  const profile = useQuery(api.upload.profilePhoto, {userId: userProfileId ? String(userProfileId) : userId});
-  const cover = useQuery(api.upload.coverPhoto, {userId: userProfileId ? String(userProfileId) : userId});
-  const posts = useQuery(api.post.userPosts, {userId: userProfileId ? String(userProfileId) : userId});
+  const user = useQuery(api.auth.user, {
+    userId: userProfileId ? String(userProfileId) : userId,
+  });
+  const profile = useQuery(api.upload.profilePhoto, {
+    userId: userProfileId ? String(userProfileId) : userId,
+  });
+  const cover = useQuery(api.upload.coverPhoto, {
+    userId: userProfileId ? String(userProfileId) : userId,
+  });
+  const {results: posts, isLoading, loadMore} = usePaginatedQuery(
+    api.post.userPosts,
+    {
+      userId: userProfileId ? String(userProfileId) : userId,
+    },
+    {
+      initialNumItems: 5,
+    },
+  );
 
   if (!user || !profile || !cover) return <BootSplashScreen />;
 
@@ -83,10 +97,14 @@ const ProfileScreen = (): JSX.Element => {
     return index.toString();
   };
 
+  const renderSpinner = (): JSX.Element => {
+    return <ActivityIndicator style={tw`pb-3`} color="#CC8500" size={40} />;
+  };
+
   const listIsEmpty = (): JSX.Element => {
     return (
       <>
-        {!posts ? (
+        {isLoading ? (
           <LoadingDefault />
         ) : (
           <View
@@ -172,9 +190,14 @@ const ProfileScreen = (): JSX.Element => {
   };
 
   const renderData = ({item}: any): JSX.Element => {
-    const {_id, url, title, description} = item;
+    const {_id, title, description, storageId} = item;
     return (
-      <PostCard id={_id} url={url} title={title} description={description} />
+      <PostCard
+        id={_id}
+        title={title}
+        description={description}
+        storageId={storageId}
+      />
     );
   };
 
@@ -188,6 +211,8 @@ const ProfileScreen = (): JSX.Element => {
         data={!posts ? [] : posts}
         keyExtractor={itemKeyExtractor}
         renderItem={renderData}
+        onEndReached={() => loadMore(5)}
+        ListFooterComponent={(isLoading && posts.length != 0) ? renderSpinner : null}
       />
       <UploadProfile authorId={profile.authorId} profileId={profile._id} />
       <UploadCover authorId={cover.authorId} coverId={cover._id} />

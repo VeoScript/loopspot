@@ -1,9 +1,19 @@
 import {v} from 'convex/values';
 import {query, mutation} from './_generated/server';
+import {paginationOptsValidator} from 'convex/server';
 
 export const generateUploadUrl = mutation(async ctx => {
   return await ctx.storage.generateUploadUrl();
 });
+
+export const useGetPostImages = query({
+  args: {
+    storageId: v.string(),
+  },
+  handler: async (ctx, args) => {
+    return await ctx.storage.getUrl(args.storageId);
+  }
+})
 
 export const post = query({
   args: {
@@ -31,39 +41,23 @@ export const post = query({
 });
 
 export const posts = query({
-  handler: async ctx => {
-    const posts = await ctx.db.query('posts').order('desc').collect();
-
-    return Promise.all(
-      posts.map(async post => ({
-        ...post,
-        ...(post.format === 'image'
-          ? {url: await ctx.storage.getUrl(post.storageId)}
-          : {}),
-      })),
-    );
+  args: {paginationOpts: paginationOptsValidator},
+  handler: async (ctx, args) => {
+    return await ctx.db.query('posts').order('desc').paginate(args.paginationOpts);
   },
 });
 
 export const userPosts = query({
   args: {
     userId: v.string(),
+    paginationOpts: paginationOptsValidator,
   },
   handler: async (ctx, args) => {
-    const posts = await ctx.db
+    return await ctx.db
       .query('posts')
       .filter(q => q.eq(q.field('authorId'), args.userId))
       .order('desc')
-      .collect();
-
-    return Promise.all(
-      posts.map(async post => ({
-        ...post,
-        ...(post.format === 'image'
-          ? {url: await ctx.storage.getUrl(post.storageId)}
-          : {}),
-      })),
-    );
+      .paginate(args.paginationOpts);
   },
 });
 
