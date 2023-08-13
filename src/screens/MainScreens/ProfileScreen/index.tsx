@@ -10,8 +10,8 @@ import {FeatherIcon} from '../../../utils/Icons';
 import {Image, FlatList, View, Text, TouchableOpacity} from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
 
-import {useBackHandler} from '../../../lib/hooks/useBackHandler';
-import {useNavigate} from '../../../config/RootNavigation';
+import {useRoute} from '@react-navigation/native';
+// import {useNavigate} from '../../../config/RootNavigation';
 import {userStore} from '../../../lib/stores/auth';
 import {
   uploadProfileModalStore,
@@ -20,21 +20,19 @@ import {
 
 import {useQuery} from 'convex/react';
 import {api} from '../../../../convex/_generated/api';
+
 const ProfileScreen = () => {
+  const route: any = useRoute();
+  const userProfileId = route.params?.userId;
+
   const {userId} = userStore();
-  const {setPhoto: setProfilePhoto, setIsVisible: setIsVisibleUploadProfile} =
-    uploadProfileModalStore();
-  const {setPhoto: setCoverPhoto, setIsVisible: setIsVisibleUploadCover} =
-    uploadCoverModalStore();
+  const {setPhoto: setProfilePhoto, setIsVisible: setIsVisibleUploadProfile} = uploadProfileModalStore();
+  const {setPhoto: setCoverPhoto, setIsVisible: setIsVisibleUploadCover} = uploadCoverModalStore();
 
-  const user = useQuery(api.auth.user, {userId});
-  const profile = useQuery(api.upload.profilePhoto, {userId});
-  const cover = useQuery(api.upload.coverPhoto, {userId});
-  const posts = useQuery(api.post.userPosts, {userId});
-
-  useBackHandler(() => {
-    useNavigate('HomeScreen');
-  });
+  const user = useQuery(api.auth.user, {userId: userProfileId ? String(userProfileId) : userId});
+  const profile = useQuery(api.upload.profilePhoto, {userId: userProfileId ? String(userProfileId) : userId});
+  const cover = useQuery(api.upload.coverPhoto, {userId: userProfileId ? String(userProfileId) : userId});
+  const posts = useQuery(api.post.userPosts, {userId: userProfileId ? String(userProfileId) : userId});
 
   if (!user || !profile || !cover) return <BootSplashScreen />;
 
@@ -192,7 +190,7 @@ const ProfileScreen = () => {
   };
 
   return (
-    <DefaultLayout title="My Profile">
+    <DefaultLayout title={user.name}>
       <FlatList
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
