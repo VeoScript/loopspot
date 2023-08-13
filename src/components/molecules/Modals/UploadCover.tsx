@@ -14,6 +14,7 @@ import {Id} from '../../../../convex/_generated/dataModel';
 interface IProps {
   authorId: string | undefined;
   coverId: Id<'covers'> | undefined | any;
+  previousStorageId: string;
 }
 
 type UploadCoverProps = (props: IProps) => JSX.Element;
@@ -21,6 +22,7 @@ type UploadCoverProps = (props: IProps) => JSX.Element;
 const UploadCover: UploadCoverProps = ({
   authorId,
   coverId,
+  previousStorageId,
 }): JSX.Element => {
   const {userId} = userStore();
   const {photo, setPhoto, isVisible, setIsVisible} = uploadCoverModalStore();
@@ -30,6 +32,7 @@ const UploadCover: UploadCoverProps = ({
   const generateUploadUrl = useMutation(api.upload.generateUploadUrl);
   const sendCoverImage = useMutation(api.upload.sendCoverImage);
   const updateCoverImage = useMutation(api.upload.updateCoverImage);
+  const deletePreviousImage = useMutation(api.upload.deletePreviousImage);
 
   const onClose = (): void => {
     if (!isLoading) {
@@ -43,6 +46,12 @@ const UploadCover: UploadCoverProps = ({
       setIsLoading(true);
 
       const image: any = photo[0];
+
+      if (image.fileSize > 2097152) {
+        Toast('Selected photo size exceeds 2 MB. Choose another one.');
+        setIsLoading(false);
+        return;
+      }
 
       // Step 1: Get a short-lived upload URL
       const postUrl = await generateUploadUrl();
@@ -68,6 +77,9 @@ const UploadCover: UploadCoverProps = ({
       } else {
         await sendCoverImage({storageId, authorId: userId});
       }
+
+      // Step 4: Delete the previous cover image to saves files in the file storage
+      await deletePreviousImage({storageId: previousStorageId})
 
       setIsLoading(false);
       setPhoto(null);

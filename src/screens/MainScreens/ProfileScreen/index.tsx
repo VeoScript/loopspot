@@ -8,7 +8,14 @@ import PostCard from '../../../components/molecules/Cards/PostCard';
 import FollowerHolder from '../../../components/atoms/FollowerHolder';
 import tw from '../../../styles/tailwind';
 import {FeatherIcon} from '../../../utils/Icons';
-import {Image, FlatList, View, Text, TouchableOpacity, ActivityIndicator} from 'react-native';
+import {
+  Image,
+  FlatList,
+  View,
+  Text,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
 
 import {useRoute} from '@react-navigation/native';
@@ -38,7 +45,11 @@ const ProfileScreen = (): JSX.Element => {
   const cover = useQuery(api.upload.coverPhoto, {
     userId: userProfileId ? String(userProfileId) : userId,
   });
-  const {results: posts, isLoading, loadMore} = usePaginatedQuery(
+  const {
+    results: posts,
+    isLoading,
+    loadMore,
+  } = usePaginatedQuery(
     api.post.userPosts,
     {
       userId: userProfileId ? String(userProfileId) : userId,
@@ -212,10 +223,20 @@ const ProfileScreen = (): JSX.Element => {
         keyExtractor={itemKeyExtractor}
         renderItem={renderData}
         onEndReached={() => loadMore(5)}
-        ListFooterComponent={(isLoading && posts.length != 0) ? renderSpinner : null}
+        ListFooterComponent={
+          isLoading && posts.length != 0 ? renderSpinner : null
+        }
       />
-      <UploadProfile authorId={profile.authorId} profileId={profile._id} />
-      <UploadCover authorId={cover.authorId} coverId={cover._id} />
+      <UploadProfile
+        authorId={profile.authorId}
+        profileId={profile._id}
+        previousStorageId={String(profile.storageId)}
+      />
+      <UploadCover
+        authorId={cover.authorId}
+        coverId={cover._id}
+        previousStorageId={String(cover.storageId)}
+      />
     </DefaultLayout>
   );
 };
