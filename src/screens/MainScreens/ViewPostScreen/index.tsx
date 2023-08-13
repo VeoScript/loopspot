@@ -3,27 +3,31 @@ import LoadingDefault from '../../../components/organisms/LoadingDisplay/Loading
 import LoadingImage from '../../../components/organisms/LoadingDisplay/LoadingImage';
 import DefaultLayout from '../../../components/templates/DefaultLayout';
 import HTMLRenderer from '../../../components/organisms/HTMLRenderer';
-import tw from '../../../styles/tailwind';
 import moment from 'moment';
-import {
-  ScrollView,
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
+import tw from '../../../styles/tailwind';
+import {FeatherIcon} from '../../../utils/Icons';
+import {ScrollView, View, Text, Image, TouchableOpacity} from 'react-native';
+
+import {userStore} from '../../../lib/stores/auth';
+import {useNavigate} from '../../../config/RootNavigation';
 
 import {useRoute} from '@react-navigation/native';
 import {useQuery} from 'convex/react';
 import {api} from '../../../../convex/_generated/api';
-import {FeatherIcon} from '../../../utils/Icons';
 
 const ViewPostScreen = () => {
   const route: any = useRoute();
-
   const postId = route.params?.id;
 
+  const {userId} = userStore();
+
   const post = useQuery(api.post.post, {postId});
+  const postAuthor = useQuery(api.auth.user, {
+    userId: post ? String(post.authorId) : userId,
+  });
+  const postAuthorProfile = useQuery(api.upload.profilePhoto, {
+    userId: post ? String(post.authorId) : userId,
+  });
 
   return (
     <DefaultLayout title={post ? post?.title : ''}>
@@ -42,7 +46,7 @@ const ViewPostScreen = () => {
               />
             )}
           </View>
-          {!post ? (
+          {!post || !postAuthor || !postAuthorProfile ? (
             <LoadingDefault />
           ) : (
             <>
@@ -79,9 +83,26 @@ const ViewPostScreen = () => {
                 <Text style={tw`font-dosis text-sm text-neutral-600`}>
                   {post?.description}
                 </Text>
-                <Text style={tw`mt-2 font-dosis text-xs text-accent-9`}>
-                  {moment(post?._creationTime).format('LL')}
-                </Text>
+                <View style={tw`flex-row items-center justify-between w-full mt-2 gap-x-3`}>
+                  <TouchableOpacity
+                    activeOpacity={0.5}
+                    style={tw`flex-row items-center gap-x-2`}
+                    onPress={() => useNavigate("ProfileScreen", {userId: post.authorId})}>
+                    <Image
+                      style={tw`w-[2rem] h-[2rem] rounded-full bg-accent-8`}
+                      resizeMode="cover"
+                      source={{
+                        uri: `${postAuthorProfile?.url}`,
+                      }}
+                    />
+                    <Text style={tw`font-dosis text-sm text-accent-2`}>
+                      {postAuthor.name}
+                    </Text>
+                  </TouchableOpacity>
+                  <Text style={tw`font-dosis text-xs text-accent-9`}>
+                    {moment(post?._creationTime).format('LL')}
+                  </Text>
+                </View>
               </View>
               <View style={tw`w-full px-3`}>
                 <HTMLRenderer html={String(post?.article)} />
