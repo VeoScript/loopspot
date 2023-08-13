@@ -97,7 +97,7 @@ const LoginScreen = (): JSX.Element => {
         </TouchableOpacity>
         <TouchableOpacity
           activeOpacity={0.5}
-          style={tw`flex-row items-center justify-center w-full p-4 rounded-xl bg-accent-6`}
+          style={tw`flex-row items-center justify-center w-full p-4 rounded-xl bg-accent-9`}
           onPress={() => {
             setDefault();
             useNavigate('RegisterScreen')
