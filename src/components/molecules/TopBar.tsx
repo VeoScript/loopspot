@@ -3,9 +3,7 @@ import tw from '../../styles/tailwind';
 import {FeatherIcon} from '../../utils/Icons';
 import {View, Text, TouchableOpacity} from 'react-native';
 
-import {useRoute} from '@react-navigation/native';
 import {useNavigate} from '../../config/RootNavigation';
-
 import {menuModalStore} from '../../lib/stores/global';
 
 interface TopBarProps {

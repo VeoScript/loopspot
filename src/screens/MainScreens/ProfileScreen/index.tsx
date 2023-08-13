@@ -5,13 +5,13 @@ import BootSplashScreen from '../../../components/organisms/BootSplashScreen';
 import UploadProfile from '../../../components/molecules/Modals/UploadProfile';
 import UploadCover from '../../../components/molecules/Modals/UploadCover';
 import PostCard from '../../../components/molecules/Cards/PostCard';
+import FollowerHolder from '../../../components/atoms/FollowerHolder';
 import tw from '../../../styles/tailwind';
 import {FeatherIcon} from '../../../utils/Icons';
 import {Image, FlatList, View, Text, TouchableOpacity} from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
 
 import {useRoute} from '@react-navigation/native';
-// import {useNavigate} from '../../../config/RootNavigation';
 import {userStore} from '../../../lib/stores/auth';
 import {
   uploadProfileModalStore,
@@ -157,18 +157,7 @@ const ProfileScreen = () => {
           </View>
           <View
             style={tw`flex-row items-center justify-between w-full px-3 py-3 border-b border-accent-8`}>
-            <View style={tw`flex-row gap-x-2`}>
-              <TouchableOpacity activeOpacity={0.5}>
-                <Text style={tw`font-dosis text-sm text-accent-9`}>
-                  <Text style={tw`font-dosis-bold`}>1k</Text> followers
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity activeOpacity={0.5}>
-                <Text style={tw`font-dosis text-sm text-accent-9`}>
-                  <Text style={tw`font-dosis-bold`}>105</Text> following
-                </Text>
-              </TouchableOpacity>
-            </View>
+            <FollowerHolder />
             <TouchableOpacity
               activeOpacity={0.5}
               style={tw`w-auto rounded-xl px-5 py-2 bg-accent-2`}>
