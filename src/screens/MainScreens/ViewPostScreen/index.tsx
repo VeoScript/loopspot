@@ -15,7 +15,7 @@ import {useRoute} from '@react-navigation/native';
 import {useQuery} from 'convex/react';
 import {api} from '../../../../convex/_generated/api';
 
-const ViewPostScreen = () => {
+const ViewPostScreen = (): JSX.Element => {
   const route: any = useRoute();
   const postId = route.params?.id;
 

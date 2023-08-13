@@ -2,7 +2,7 @@ import React from 'react';
 import tw from '../../styles/tailwind';
 import {View, Text, TouchableOpacity} from 'react-native';
 
-const FollowerHolder = () => {
+const FollowerHolder = (): JSX.Element => {
   return (
     <View style={tw`flex-row gap-x-2`}>
       <TouchableOpacity activeOpacity={0.5}>

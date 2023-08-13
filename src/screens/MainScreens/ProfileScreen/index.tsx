@@ -21,7 +21,7 @@ import {
 import {useQuery} from 'convex/react';
 import {api} from '../../../../convex/_generated/api';
 
-const ProfileScreen = () => {
+const ProfileScreen = (): JSX.Element => {
   const route: any = useRoute();
   const userProfileId = route.params?.userId;
 
