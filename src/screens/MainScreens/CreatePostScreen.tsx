@@ -117,12 +117,8 @@ const CreatePostScreen = (): JSX.Element => {
             />
           ) : (
             <View
-              style={tw`flex-row items-center justify-center w-full h-[12rem] bg-accent-8`}>
-              <Image
-                style={tw`w-[9rem] h-[9rem]`}
-                resizeMode="cover"
-                source={require('../../assets/images/profile_placeholder.png')}
-              />
+              style={tw`flex-row items-center justify-center w-full h-[12rem] bg-neutral-100`}>
+              <FeatherIcon name="image" color="#D6D6D6" size={80} />
             </View>
           )}
           {!isLoading && (
@@ -181,7 +177,7 @@ const CreatePostScreen = (): JSX.Element => {
               ref={richText}
               onChange={richTextHandle}
               placeholder="Write your cool idea, article or everthing..."
-              style={tw`w-full font-dosis`}
+              editorStyle={tw`w-full`}
               initialHeight={250}
             />
           </View>
