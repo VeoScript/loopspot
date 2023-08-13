@@ -3,7 +3,7 @@ import DefaultLayout from '../../../components/templates/DefaultLayout';
 import tw from '../../../styles/tailwind';
 import {View, Text} from 'react-native';
 
-const NotificationScreen = () => {
+const NotificationScreen = (): JSX.Element => {
   return (
     <DefaultLayout title="Notifications">
       <View style={tw`flex-col items-center justify-center w-full h-full`}>

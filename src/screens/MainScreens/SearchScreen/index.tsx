@@ -6,7 +6,7 @@ import {View, Text} from 'react-native';
 import {useBackHandler} from '../../../lib/hooks/useBackHandler';
 import {useNavigate} from '../../../config/RootNavigation';
 
-const SearchScreen = () => {
+const SearchScreen = (): JSX.Element => {
   useBackHandler(() => {
     useNavigate('HomeScreen');
   });

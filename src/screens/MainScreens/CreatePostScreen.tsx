@@ -14,7 +14,7 @@ import {useNavigate} from '../../config/RootNavigation';
 import {useMutation} from 'convex/react';
 import {api} from '../../../convex/_generated/api';
 
-const CreatePostScreen = () => {
+const CreatePostScreen = (): JSX.Element => {
   const {userId} = userStore();
 
   const richText = useRef<any>();
