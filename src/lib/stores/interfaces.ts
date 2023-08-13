@@ -30,6 +30,13 @@ export interface MenuModalProps {
   setIsVisible: (value: boolean) => void;
 }
 
+export interface ViewImageModalProps {
+  image: string;
+  setImage: (value: string) => void;
+  isVisible: boolean;
+  setIsVisible: (value: boolean) => void;
+}
+
 export interface UploadImageProps extends MenuModalProps {
   photo: any;
   setPhoto: any;

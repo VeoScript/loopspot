@@ -3,12 +3,14 @@ import LoadingDefault from '../../../components/organisms/LoadingDisplay/Loading
 import LoadingImage from '../../../components/organisms/LoadingDisplay/LoadingImage';
 import DefaultLayout from '../../../components/templates/DefaultLayout';
 import HTMLRenderer from '../../../components/organisms/HTMLRenderer';
+import ViewImage from '../../../components/molecules/Modals/ViewImage';
 import moment from 'moment';
 import tw from '../../../styles/tailwind';
 import {FeatherIcon} from '../../../utils/Icons';
 import {ScrollView, View, Text, Image, TouchableOpacity} from 'react-native';
 
 import {userStore} from '../../../lib/stores/auth';
+import {viewImageModalStore} from '../../../lib/stores/global';
 import {useNavigate} from '../../../config/RootNavigation';
 
 import {useRoute} from '@react-navigation/native';
@@ -20,6 +22,7 @@ const ViewPostScreen = (): JSX.Element => {
   const postId = route.params?.id;
 
   const {userId} = userStore();
+  const {setImage, setIsVisible} = viewImageModalStore();
 
   const post = useQuery(api.post.post, {postId});
   const postAuthor = useQuery(api.auth.user, {
@@ -37,13 +40,20 @@ const ViewPostScreen = (): JSX.Element => {
             {!post ? (
               <LoadingImage />
             ) : (
-              <Image
-                style={tw`w-full h-full bg-accent-8`}
-                resizeMode="cover"
-                source={{
-                  uri: `${post?.url}`,
-                }}
-              />
+              <TouchableOpacity
+                activeOpacity={0.5}
+                onPress={() => {
+                  setImage(String(post?.url));
+                  setIsVisible(true);
+                }}>
+                <Image
+                  style={tw`w-full h-full bg-accent-8`}
+                  resizeMode="cover"
+                  source={{
+                    uri: `${post?.url}`,
+                  }}
+                />
+              </TouchableOpacity>
             )}
           </View>
           {!post || !postAuthor || !postAuthorProfile ? (
@@ -83,11 +93,14 @@ const ViewPostScreen = (): JSX.Element => {
                 <Text style={tw`font-dosis text-sm text-neutral-600`}>
                   {post?.description}
                 </Text>
-                <View style={tw`flex-row items-center justify-between w-full mt-2 gap-x-3`}>
+                <View
+                  style={tw`flex-row items-center justify-between w-full mt-2 gap-x-3`}>
                   <TouchableOpacity
                     activeOpacity={0.5}
                     style={tw`flex-row items-center gap-x-2`}
-                    onPress={() => useNavigate("ProfileScreen", {userId: post.authorId})}>
+                    onPress={() =>
+                      useNavigate('ProfileScreen', {userId: post.authorId})
+                    }>
                     <Image
                       style={tw`w-[2rem] h-[2rem] rounded-full bg-accent-8`}
                       resizeMode="cover"
@@ -111,6 +124,7 @@ const ViewPostScreen = (): JSX.Element => {
           )}
         </View>
       </ScrollView>
+      <ViewImage />
     </DefaultLayout>
   );
 };
