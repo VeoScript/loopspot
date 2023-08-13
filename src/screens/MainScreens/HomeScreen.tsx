@@ -3,24 +3,35 @@ import BootSplashScreen from '../../components/organisms/BootSplashScreen';
 import LoadingDefault from '../../components/organisms/LoadingDisplay/LoadingDefault';
 import DefaultLayout from '../../components/templates/DefaultLayout';
 import PostCard from '../../components/molecules/Cards/PostCard';
-import {FlatList, View, Text} from 'react-native';
+import {FlatList, View, Text, ActivityIndicator} from 'react-native';
 
 import tw from '../../styles/tailwind';
 import {userStore} from '../../lib/stores/auth';
 
-import {useQuery} from 'convex/react';
+import {useQuery, usePaginatedQuery} from 'convex/react';
 import {api} from '../../../convex/_generated/api';
 
 const HomeScreen = (): JSX.Element => {
   const {userId} = userStore();
 
   const user = useQuery(api.auth.user, {userId});
-  const feeds = useQuery(api.post.posts);
+  const {
+    results: feeds,
+    isLoading,
+    loadMore,
+  } = usePaginatedQuery(api.post.posts, {}, {initialNumItems: 5});
 
   if (!user) return <BootSplashScreen />;
 
-  const itemKeyExtractor = (item: any, index: {toString: () => any}) => {
+  const itemKeyExtractor = (
+    item: any,
+    index: {toString: () => any},
+  ): string => {
     return index.toString();
+  };
+
+  const renderSpinner = (): JSX.Element => {
+    return <ActivityIndicator style={tw`pb-3`} color="#CC8500" size={40} />;
   };
 
   const listIsEmpty = (): JSX.Element => {
@@ -42,9 +53,14 @@ const HomeScreen = (): JSX.Element => {
   };
 
   const renderData = ({item}: any): JSX.Element => {
-    const {_id, url, title, description} = item;
+    const {_id, title, description, storageId} = item;
     return (
-      <PostCard id={_id} url={url} title={title} description={description} />
+      <PostCard
+        id={_id}
+        title={title}
+        description={description}
+        storageId={storageId}
+      />
     );
   };
 
@@ -57,6 +73,8 @@ const HomeScreen = (): JSX.Element => {
         data={!feeds ? [] : feeds}
         keyExtractor={itemKeyExtractor}
         renderItem={renderData}
+        onEndReached={() => loadMore(5)}
+        ListFooterComponent={isLoading ? renderSpinner : null}
       />
     </DefaultLayout>
   );
