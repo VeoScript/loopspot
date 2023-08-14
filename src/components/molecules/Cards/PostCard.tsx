@@ -1,9 +1,12 @@
 import React from 'react';
+import ReactionButton from '../Buttons/ReactionButton';
+
 import tw from '../../../styles/tailwind';
 import {FeatherIcon} from '../../../utils/Icons';
 import {TouchableOpacity, Image, View, Text} from 'react-native';
 
 import {useNavigate} from '../../../config/RootNavigation';
+import {userStore} from '../../../lib/stores/auth';
 
 import {useQuery} from 'convex/react';
 import {api} from '../../../../convex/_generated/api';
@@ -24,6 +27,8 @@ const PostCard: PostCardType = ({
   description,
   storageId,
 }): JSX.Element => {
+  const {userId} = userStore();
+
   const getPostImage = useQuery(api.post.useGetPostImages, {storageId});
 
   return (
@@ -48,12 +53,7 @@ const PostCard: PostCardType = ({
             {title}
           </Text>
           <View style={tw`flex-row items-center gap-x-2`}>
-            <TouchableOpacity
-              activeOpacity={0.5}
-              style={tw`flex-row items-center gap-x-1`}>
-              <FeatherIcon name="heart" color="#E39400" size={18} />
-              <Text style={tw`font-dosis text-accent-9 text-sm`}>0</Text>
-            </TouchableOpacity>
+            <ReactionButton postId={id} userId={userId} />
             <TouchableOpacity
               activeOpacity={0.5}
               style={tw`flex-row items-center gap-x-1`}>

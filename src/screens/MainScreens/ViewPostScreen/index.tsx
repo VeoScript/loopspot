@@ -4,6 +4,7 @@ import LoadingImage from '../../../components/organisms/LoadingDisplay/LoadingIm
 import DefaultLayout from '../../../components/templates/DefaultLayout';
 import HTMLRenderer from '../../../components/organisms/HTMLRenderer';
 import ViewImage from '../../../components/molecules/Modals/ViewImage';
+import ReactionButton from '../../../components/molecules/Buttons/ReactionButton';
 import moment from 'moment';
 import tw from '../../../styles/tailwind';
 import {FeatherIcon} from '../../../utils/Icons';
@@ -70,14 +71,7 @@ const ViewPostScreen = (): JSX.Element => {
                     {post?.title}
                   </Text>
                   <View style={tw`flex-row items-center gap-x-2`}>
-                    <TouchableOpacity
-                      activeOpacity={0.5}
-                      style={tw`flex-row items-center gap-x-1`}>
-                      <FeatherIcon name="heart" color="#E39400" size={18} />
-                      <Text style={tw`font-dosis text-accent-9 text-sm`}>
-                        0
-                      </Text>
-                    </TouchableOpacity>
+                    <ReactionButton postId={postId} userId={userId} />
                     <TouchableOpacity
                       activeOpacity={0.5}
                       style={tw`flex-row items-center gap-x-1`}>
