@@ -30,27 +30,23 @@ const HomeScreen = (): JSX.Element => {
     return index.toString();
   };
 
-  const renderSpinner = (): JSX.Element => {
-    return <ActivityIndicator style={tw`pb-3`} color="#CC8500" size={40} />;
-  };
+  const renderSpinner: JSX.Element = <ActivityIndicator style={tw`pb-3`} color="#CC8500" size={40} />;
 
-  const listIsEmpty = (): JSX.Element => {
-    return (
-      <>
-        {isLoading ? (
-          <LoadingDefault />
-        ) : (
-          <View
-            style={tw`flex-1 flex-col items-center justify-center w-full my-3 p-3`}>
-            <Text
-              style={tw`uppercase default-text-color font-dosis-bold text-sm text-neutral-500`}>
-              No post as of now...
-            </Text>
-          </View>
-        )}
-      </>
-    );
-  };
+  const listIsEmpty: JSX.Element = (
+    <>
+      {isLoading ? (
+        <LoadingDefault />
+      ) : (
+        <View
+          style={tw`flex-1 flex-col items-center justify-center w-full my-3 p-3`}>
+          <Text
+            style={tw`uppercase default-text-color font-dosis-bold text-sm text-neutral-500`}>
+            No post as of now...
+          </Text>
+        </View>
+      )}
+    </>
+  );
 
   const renderData = ({item}: any): JSX.Element => {
     const {_id, title, description, storageId} = item;
