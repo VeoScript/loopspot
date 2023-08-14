@@ -26,4 +26,8 @@ export default defineSchema({
     authorId: v.string(),
     format: v.string(),
   }),
+  reactions: defineTable({
+    postId: v.string(),
+    userId: v.string(),
+  }),
 });

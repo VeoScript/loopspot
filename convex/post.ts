@@ -12,8 +12,8 @@ export const useGetPostImages = query({
   },
   handler: async (ctx, args) => {
     return await ctx.storage.getUrl(args.storageId);
-  }
-})
+  },
+});
 
 export const post = query({
   args: {
@@ -43,7 +43,10 @@ export const post = query({
 export const posts = query({
   args: {paginationOpts: paginationOptsValidator},
   handler: async (ctx, args) => {
-    return await ctx.db.query('posts').order('desc').paginate(args.paginationOpts);
+    return await ctx.db
+      .query('posts')
+      .order('desc')
+      .paginate(args.paginationOpts);
   },
 });
 
