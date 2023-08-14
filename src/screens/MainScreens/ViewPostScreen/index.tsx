@@ -34,7 +34,9 @@ const ViewPostScreen = (): JSX.Element => {
 
   return (
     <DefaultLayout title={post ? post?.title : ''}>
-      <ScrollView contentContainerStyle={tw.style('w-full', !post && 'h-full')}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={tw.style('w-full', !post && 'h-full')}>
         <View style={tw`gap-y-3`}>
           <View style={tw`w-full h-[15rem]`}>
             {!post ? (
