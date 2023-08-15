@@ -7,16 +7,41 @@ import ReactionButton from '../../../components/molecules/Buttons/ReactionButton
 import moment from 'moment';
 import tw from '../../../styles/tailwind';
 import {FeatherIcon} from '../../../utils/Icons';
-import {ScrollView, View, Text, Image, TouchableOpacity} from 'react-native';
+import {Toast} from '../../../utils/Toast';
+import {ScrollView, View, Text, Image, TouchableOpacity, Alert} from 'react-native';
 import {RichEditor} from 'react-native-pell-rich-editor';
+import {
+  SwipeItem,
+  SwipeButtonsContainer,
+  SwipeProvider,
+} from 'react-native-swipe-item';
 
 import {userStore} from '../../../lib/stores/auth';
 import {viewImageModalStore} from '../../../lib/stores/global';
 import {useNavigate} from '../../../config/RootNavigation';
 
 import {useRoute} from '@react-navigation/native';
-import {useQuery} from 'convex/react';
+import {useQuery, useMutation} from 'convex/react';
 import {api} from '../../../../convex/_generated/api';
+import {Id} from '../../../../convex/_generated/dataModel';
+
+interface PostTitleHolderProps {
+  postId: string;
+  userId: string;
+  authorProfile: string | null;
+  authorName: string;
+  post: {
+    _id: Id<'posts'> | undefined;
+    _creationTime: number | undefined;
+    title: string | undefined;
+    description: string | undefined;
+    article: string | undefined;
+    authorId: string | undefined;
+    url: string | null;
+  };
+}
+
+type PostTitleHolderType = (props: PostTitleHolderProps) => JSX.Element;
 
 const ViewPostScreen = (): JSX.Element => {
   const route: any = useRoute();
@@ -26,12 +51,8 @@ const ViewPostScreen = (): JSX.Element => {
   const {setImage, setIsVisible} = viewImageModalStore();
 
   const post = useQuery(api.post.post, {postId});
-  const postAuthor = useQuery(api.auth.user, {
-    userId: post ? String(post.authorId) : userId,
-  });
-  const postAuthorProfile = useQuery(api.upload.profilePhoto, {
-    userId: post ? String(post.authorId) : userId,
-  });
+  const postAuthor = useQuery(api.auth.user, {userId: post ? String(post.authorId) : userId});
+  const postAuthorProfile = useQuery(api.upload.profilePhoto, {userId: post ? String(post.authorId) : userId});
 
   return (
     <DefaultLayout title={post ? post?.title : ''}>
@@ -63,55 +84,14 @@ const ViewPostScreen = (): JSX.Element => {
             <LoadingDefault />
           ) : (
             <>
-              <View
-                style={tw`flex-col w-full px-3 pb-3 gap-y-1 border-b border-accent-8`}>
-                <View
-                  style={tw`flex-row items-center justify-between w-full gap-x-5`}>
-                  <Text style={tw`default-text-color font-dosis-bold text-xl`}>
-                    {post?.title}
-                  </Text>
-                  <View style={tw`flex-row items-center gap-x-2`}>
-                    <ReactionButton postId={postId} userId={userId} />
-                    <TouchableOpacity
-                      activeOpacity={0.5}
-                      style={tw`flex-row items-center gap-x-1`}>
-                      <FeatherIcon
-                        name="message-circle"
-                        color="#E39400"
-                        size={18}
-                      />
-                      <Text style={tw`font-dosis text-accent-9 text-sm`}>
-                        0
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-                <Text style={tw`font-dosis text-sm text-neutral-600`}>
-                  {post?.description}
-                </Text>
-                <View
-                  style={tw`flex-row items-center justify-between w-full mt-2 gap-x-3`}>
-                  <TouchableOpacity
-                    activeOpacity={0.5}
-                    style={tw`flex-row items-center gap-x-2`}
-                    onPress={() =>
-                      useNavigate('ProfileScreen', {userId: post.authorId})
-                    }>
-                    <Image
-                      style={tw`w-[2rem] h-[2rem] rounded-full bg-accent-8`}
-                      resizeMode="cover"
-                      source={{
-                        uri: `${postAuthorProfile?.url}`,
-                      }}
-                    />
-                    <Text style={tw`font-dosis text-sm text-accent-2`}>
-                      {postAuthor.name}
-                    </Text>
-                  </TouchableOpacity>
-                  <Text style={tw`font-dosis text-xs text-accent-9`}>
-                    {moment(post?._creationTime).format('LL')}
-                  </Text>
-                </View>
+              <View style={tw`flex-1 w-full border-b border-accent-8`}>
+                <PostTitleHolder
+                  post={post}
+                  postId={postId}
+                  userId={userId}
+                  authorName={postAuthor.name}
+                  authorProfile={postAuthorProfile.url}
+                />
               </View>
               <View style={tw`w-full`}>
                 <RichEditor
@@ -126,6 +106,119 @@ const ViewPostScreen = (): JSX.Element => {
       </ScrollView>
       <ViewImage />
     </DefaultLayout>
+  );
+};
+
+const PostTitleHolder: PostTitleHolderType = ({
+  post,
+  postId,
+  userId,
+  authorName,
+  authorProfile,
+}): JSX.Element => {
+
+  const deletePostMutation = useMutation(api.post.deletePost);
+
+  const handleDeletePost = async () => {
+    await deletePostMutation({
+      postId,
+    })
+    Toast('Deleted successfully')
+    useNavigate('HomeScreen')
+  }
+
+  const rightButton: JSX.Element = (
+    <>
+      {post.authorId === userId && (
+        <SwipeButtonsContainer
+          style={tw`flex-col items-center w-[10rem] gap-y-1`}>
+          <TouchableOpacity
+            activeOpacity={0.5}
+            style={tw`flex-row items-center justify-center w-[7rem] p-3 rounded-full bg-accent-8`}
+            onPress={() => console.log('edit')}>
+            <Text style={tw`font-dosis text-sm text-accent-2`}>Edit</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            activeOpacity={0.5}
+            style={tw`flex-row items-center justify-center w-[7rem] p-3 rounded-full bg-red-400`}
+            onPress={() => {  
+              Alert.alert(
+                '',
+                'Are you sure you want to delete this post?',
+                [
+                  {
+                    text: 'No',
+                    style: 'cancel',
+                  },
+                  {
+                    text: 'Yes',
+                    style: 'default',
+                    onPress: handleDeletePost,
+                  },
+                ],
+                {
+                  cancelable: true,
+                },
+              );
+            }}>
+            <Text style={tw`font-dosis text-sm text-accent-1`}>Delete</Text>
+          </TouchableOpacity>
+        </SwipeButtonsContainer>
+      )}
+    </>
+  );
+
+  return (
+    <SwipeProvider>
+      <SwipeItem
+        style={tw`w-full`}
+        rightButtons={rightButton}
+        disableSwipeIfNoButton={true}>
+        <View style={tw`flex-col w-full px-3 pb-3 gap-y-1 bg-accent-3`}>
+          <View
+            style={tw`flex-row items-center justify-between w-full gap-x-5`}>
+            <Text style={tw`default-text-color font-dosis-bold text-xl`}>
+              {post?.title}
+            </Text>
+            <View style={tw`flex-row items-center gap-x-2`}>
+              <ReactionButton postId={postId} userId={userId} />
+              <TouchableOpacity
+                activeOpacity={0.5}
+                style={tw`flex-row items-center gap-x-1`}>
+                <FeatherIcon name="message-circle" color="#E39400" size={18} />
+                <Text style={tw`font-dosis text-accent-9 text-sm`}>0</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <Text style={tw`font-dosis text-sm text-neutral-600`}>
+            {post?.description}
+          </Text>
+          <View
+            style={tw`flex-row items-center justify-between w-full mt-2 gap-x-3`}>
+            <TouchableOpacity
+              activeOpacity={0.5}
+              style={tw`flex-row items-center gap-x-2`}
+              onPress={() =>
+                useNavigate('ProfileScreen', {userId: post.authorId})
+              }>
+              <Image
+                style={tw`w-[2rem] h-[2rem] rounded-full bg-accent-8`}
+                resizeMode="cover"
+                source={{
+                  uri: `${authorProfile}`,
+                }}
+              />
+              <Text style={tw`font-dosis text-sm text-accent-2`}>
+                {authorName}
+              </Text>
+            </TouchableOpacity>
+            <Text style={tw`font-dosis text-xs text-accent-9`}>
+              {moment(post?._creationTime).format('LL')}
+            </Text>
+          </View>
+        </View>
+      </SwipeItem>
+    </SwipeProvider>
   );
 };
 

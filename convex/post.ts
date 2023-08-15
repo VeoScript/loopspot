@@ -83,3 +83,21 @@ export const createPost = mutation({
     });
   },
 });
+
+export const deletePost = mutation({
+  args: {
+    postId: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const post = await ctx.db
+      .query('posts')
+      .filter(q => q.eq(q.field('_id'), args.postId))
+      .order('desc')
+      .unique();
+
+    if (post) {
+      await ctx.db.delete(post._id);
+      await ctx.storage.delete(post.storageId);
+    }
+  },
+});
