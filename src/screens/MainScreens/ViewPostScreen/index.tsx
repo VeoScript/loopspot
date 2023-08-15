@@ -2,13 +2,13 @@ import React from 'react';
 import LoadingDefault from '../../../components/organisms/LoadingDisplay/LoadingDefault';
 import LoadingImage from '../../../components/organisms/LoadingDisplay/LoadingImage';
 import DefaultLayout from '../../../components/templates/DefaultLayout';
-import HTMLRenderer from '../../../components/organisms/HTMLRenderer';
 import ViewImage from '../../../components/molecules/Modals/ViewImage';
 import ReactionButton from '../../../components/molecules/Buttons/ReactionButton';
 import moment from 'moment';
 import tw from '../../../styles/tailwind';
 import {FeatherIcon} from '../../../utils/Icons';
 import {ScrollView, View, Text, Image, TouchableOpacity} from 'react-native';
+import {RichEditor} from 'react-native-pell-rich-editor';
 
 import {userStore} from '../../../lib/stores/auth';
 import {viewImageModalStore} from '../../../lib/stores/global';
@@ -113,8 +113,12 @@ const ViewPostScreen = (): JSX.Element => {
                   </Text>
                 </View>
               </View>
-              <View style={tw`w-full px-3`}>
-                <HTMLRenderer html={String(post?.article)} />
+              <View style={tw`w-full`}>
+                <RichEditor
+                  editorStyle={tw`w-full bg-accent-3`}
+                  showsVerticalScrollIndicator={false}
+                  initialContentHTML={post.article}
+                />
               </View>
             </>
           )}
