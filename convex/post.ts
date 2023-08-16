@@ -95,9 +95,22 @@ export const deletePost = mutation({
       .order('desc')
       .unique();
 
+    const reactions = await ctx.db
+      .query('reactions')
+      .filter(q => q.eq(q.field('postId'), args.postId))
+      .collect();
+
+    // DELETE POST AND POST IMAGE IN FILE STORAGE...
     if (post) {
       await ctx.db.delete(post._id);
       await ctx.storage.delete(post.storageId);
+    }
+
+    // DELETE POST IN REACTIONS/INSPIRED POSTS...
+    if (reactions) {
+      for (let i = 0; i < reactions.length; i++) {
+        await ctx.db.delete(reactions[i]._id);
+      }
     }
   },
 });
