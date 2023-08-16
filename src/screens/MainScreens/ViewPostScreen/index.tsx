@@ -4,11 +4,12 @@ import LoadingImage from '../../../components/organisms/LoadingDisplay/LoadingIm
 import DefaultLayout from '../../../components/templates/DefaultLayout';
 import ViewImage from '../../../components/molecules/Modals/ViewImage';
 import ReactionButton from '../../../components/molecules/Buttons/ReactionButton';
+import FastImage from 'react-native-fast-image'
 import moment from 'moment';
 import tw from '../../../styles/tailwind';
 import {FeatherIcon} from '../../../utils/Icons';
 import {Toast} from '../../../utils/Toast';
-import {ScrollView, View, Text, Image, TouchableOpacity, Alert} from 'react-native';
+import {ScrollView, View, Text, TouchableOpacity, Alert} from 'react-native';
 import {RichEditor} from 'react-native-pell-rich-editor';
 import {
   SwipeItem,
@@ -70,11 +71,12 @@ const ViewPostScreen = (): JSX.Element => {
                   setImage(String(post?.url));
                   setIsVisible(true);
                 }}>
-                <Image
+                <FastImage
                   style={tw`w-full h-full bg-accent-8`}
-                  resizeMode="cover"
+                  resizeMode={FastImage.resizeMode.cover}
                   source={{
                     uri: `${post?.url}`,
+                    priority: FastImage.priority.normal,
                   }}
                 />
               </TouchableOpacity>
@@ -201,11 +203,12 @@ const PostTitleHolder: PostTitleHolderType = ({
               onPress={() =>
                 useNavigate('ProfileScreen', {userId: post.authorId})
               }>
-              <Image
+              <FastImage
                 style={tw`w-[2rem] h-[2rem] rounded-full bg-accent-8`}
-                resizeMode="cover"
+                resizeMode={FastImage.resizeMode.cover}
                 source={{
                   uri: `${authorProfile}`,
+                  priority: FastImage.priority.normal,
                 }}
               />
               <Text style={tw`font-dosis text-sm text-accent-2`}>

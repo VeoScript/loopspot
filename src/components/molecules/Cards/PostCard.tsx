@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactionButton from '../Buttons/ReactionButton';
+import FastImage from 'react-native-fast-image'
 
 import tw from '../../../styles/tailwind';
 import {FeatherIcon} from '../../../utils/Icons';
-import {TouchableOpacity, Image, View, Text} from 'react-native';
+import {TouchableOpacity, View, Text} from 'react-native';
 
 import {useNavigate} from '../../../config/RootNavigation';
 import {userStore} from '../../../lib/stores/auth';
@@ -37,11 +38,12 @@ const PostCard: PostCardType = ({
       style={tw`flex-col w-full p-3 gap-y-3`}
       onPress={() => useNavigate('ViewPostScreen', {id})}>
       {getPostImage ? (
-        <Image
+        <FastImage
           style={tw`w-full h-[15rem] rounded-3xl bg-accent-8`}
-          resizeMode="cover"
+          resizeMode={FastImage.resizeMode.cover}
           source={{
             uri: `${getPostImage}`,
+            priority: FastImage.priority.normal,
           }}
         />
       ) : (

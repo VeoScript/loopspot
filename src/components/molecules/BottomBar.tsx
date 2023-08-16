@@ -1,4 +1,5 @@
 import React from 'react';
+import FastImage from 'react-native-fast-image'
 import tw from '../../styles/tailwind';
 import {FeatherIcon} from '../../utils/Icons';
 import {Image, View, TouchableOpacity} from 'react-native';
@@ -45,11 +46,12 @@ const BottomBar = (): JSX.Element => {
         style={tw`p-5`}
         onPress={() => useNavigate('ProfileScreen')}>
         {profile?.url ? (
-          <Image
+          <FastImage
             style={tw`rounded-full w-[25px] h-[25px] bg-accent-8`}
-            resizeMode="cover"
+            resizeMode={FastImage.resizeMode.cover}
             source={{
               uri: `${profile?.url}`,
+              priority: FastImage.priority.normal,
             }}
           />
         ) : (
