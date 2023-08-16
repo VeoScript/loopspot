@@ -1,6 +1,7 @@
 import React from 'react';
 import Modal from 'react-native-modal';
 import FollowerHolder from '../atoms/FollowerHolder';
+import FastImage from 'react-native-fast-image'
 import tw from '../../styles/tailwind';
 import {FeatherIcon} from '../../utils/Icons';
 import {ScrollView, View, Text, TouchableOpacity, Image} from 'react-native';
@@ -40,11 +41,12 @@ const MenuBar = (): JSX.Element => {
                 useNavigate('ProfileScreen');
               }}>
               {profile?.url ? (
-                <Image
+                <FastImage
                   style={tw`rounded-full w-[3rem] h-[3rem] bg-accent-8`}
-                  resizeMode="cover"
+                  resizeMode={FastImage.resizeMode.cover}
                   source={{
                     uri: profile.url,
+                    priority: FastImage.priority.normal,
                   }}
                 />
               ) : (

@@ -7,6 +7,7 @@ import UploadCover from '../../../components/molecules/Modals/UploadCover';
 import ViewImage from '../../../components/molecules/Modals/ViewImage';
 import PostCard from '../../../components/molecules/Cards/PostCard';
 import FollowerHolder from '../../../components/atoms/FollowerHolder';
+import FastImage from 'react-native-fast-image'
 import tw from '../../../styles/tailwind';
 import {FeatherIcon} from '../../../utils/Icons';
 import {
@@ -146,11 +147,12 @@ const ProfileScreen = (): JSX.Element => {
               setImage(String(cover?.url));
               setIsVisible(true);
             }}>
-            <Image
+            <FastImage
               style={tw`w-full h-full bg-accent-8`}
-              resizeMode="cover"
+              resizeMode={FastImage.resizeMode.cover}
               source={{
                 uri: `${cover?.url}`,
+                priority: FastImage.priority.normal,
               }}
             />
           </TouchableOpacity>
@@ -165,11 +167,12 @@ const ProfileScreen = (): JSX.Element => {
                 setImage(String(profile?.url));
                 setIsVisible(true);
               }}>
-              <Image
+              <FastImage
                 style={tw`w-[9rem] h-[9rem] rounded-full border-2 border-accent-3 bg-accent-8`}
-                resizeMode="cover"
+                resizeMode={FastImage.resizeMode.cover}
                 source={{
                   uri: `${profile?.url}`,
+                  priority: FastImage.priority.normal,
                 }}
               />
             </TouchableOpacity>
