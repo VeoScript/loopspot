@@ -9,7 +9,7 @@ export interface HTMLRendererProps {
 
 type HTMLRendererType = (props: HTMLRendererProps) => JSX.Element;
 
-const HTMLRenderer: HTMLRendererType = ({html}) => {
+const HTMLRenderer: HTMLRendererType = ({html}): JSX.Element => {
   const {width} = useWindowDimensions();
 
   const MemoizedRenderHtml = React.memo(RenderHtml);
@@ -23,7 +23,7 @@ const HTMLRenderer: HTMLRendererType = ({html}) => {
 
   return (
     <MemoizedRenderHtml
-      baseStyle={tw`default-text-color py-3`}
+      baseStyle={tw`default-text-color p-3`}
       tagsStyles={tagsStyles}
       contentWidth={width}
       source={{html: html}}
