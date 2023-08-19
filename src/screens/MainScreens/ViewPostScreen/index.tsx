@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import LoadingDefault from '../../../components/organisms/LoadingDisplay/LoadingDefault';
 import LoadingImage from '../../../components/organisms/LoadingDisplay/LoadingImage';
 import DefaultLayout from '../../../components/templates/DefaultLayout';
 import ViewImage from '../../../components/molecules/Modals/ViewImage';
 import ReactionButton from '../../../components/molecules/Buttons/ReactionButton';
+import HTMLRenderer from '../../../components/organisms/HTMLRenderer';
 import FastImage from 'react-native-fast-image'
 import moment from 'moment';
 import tw from '../../../styles/tailwind';
@@ -96,11 +97,7 @@ const ViewPostScreen = (): JSX.Element => {
                 />
               </View>
               <View style={tw`w-full`}>
-                <RichEditor
-                  editorStyle={tw`w-full bg-accent-3`}
-                  showsVerticalScrollIndicator={false}
-                  initialContentHTML={post.article}
-                />
+                <HTMLRenderer html={post.article ?? ''} />
               </View>
             </>
           )}
@@ -118,6 +115,8 @@ const PostTitleHolder: PostTitleHolderType = ({
   authorName,
   authorProfile,
 }): JSX.Element => {
+  
+  const swipeRef = useRef<any>(null);
 
   const deletePostMutation = useMutation(api.post.deletePost);
 
@@ -137,7 +136,10 @@ const PostTitleHolder: PostTitleHolderType = ({
           <TouchableOpacity
             activeOpacity={0.5}
             style={tw`flex-row items-center justify-center w-[7rem] p-3 rounded-full bg-accent-8`}
-            onPress={() => console.log('edit')}>
+            onPress={() => {
+              swipeRef.current.close();
+              useNavigate('CreatePostScreen', {id: post._id})
+            }}>
             <Text style={tw`font-dosis text-sm text-accent-2`}>Edit</Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -173,6 +175,7 @@ const PostTitleHolder: PostTitleHolderType = ({
   return (
     <SwipeProvider>
       <SwipeItem
+        ref={swipeRef}
         style={tw`w-full`}
         rightButtons={rightButton}
         disableSwipeIfNoButton={true}>
