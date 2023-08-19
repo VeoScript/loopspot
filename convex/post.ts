@@ -84,6 +84,48 @@ export const createPost = mutation({
   },
 });
 
+export const editPost = mutation({
+  args: {
+    title: v.string(),
+    description: v.string(),
+    article: v.string(),
+    storageId: v.string(),
+    authorId: v.string(),
+    postId: v.id('posts'),
+    postImageUrl: v.boolean(),
+  },
+  handler: async (ctx, args) => {
+    const post = await ctx.db
+      .query('posts')
+      .filter(q => q.eq(q.field('_id'), args.postId))
+      .unique();
+
+    if (post) {
+      if (args.postImageUrl) {
+        // update post data except image url...
+        await ctx.db.patch(post._id, {
+          title: args.title,
+          description: args.description,
+          article: args.article,
+          authorId: args.authorId,
+        });
+      } else {
+        // delete existing image url in storage...
+        await ctx.storage.delete(post.storageId);
+
+        // update new post data with image url...
+        await ctx.db.patch(post._id, {
+          title: args.title,
+          description: args.description,
+          article: args.article,
+          storageId: args.storageId,
+          authorId: args.authorId,
+        });
+      }
+    }
+  },
+});
+
 export const deletePost = mutation({
   args: {
     postId: v.string(),
