@@ -61,25 +61,36 @@ const InboxCard: InboxCardType = ({
         })
       }>
       <View style={tw`flex-1 flex-row items-center gap-x-3`}>
-        <FastImage
-          style={tw`w-[3rem] h-[3rem] rounded-full bg-accent-8`}
-          resizeMode={FastImage.resizeMode.cover}
-          source={{
-            uri: avatar?.url as string,
-            priority: FastImage.priority.normal,
-          }}
-        />
-        <View style={tw`flex-1 flex-col items-start`}>
-          <Text
-            style={tw`default-text-color font-dosis-bold text-base text-accent-2`}>
-            {chatName?.name ?? ''}
-          </Text>
-          <Text
-            numberOfLines={1}
-            style={tw`default-text-color font-dosis text-sm text-accent-2`}>
-            {last_chat}
-          </Text>
-        </View>
+        {avatar ? (
+          <FastImage
+            style={tw`w-[3rem] h-[3rem] rounded-full bg-accent-8`}
+            resizeMode={FastImage.resizeMode.cover}
+            source={{
+              uri: avatar?.url as string,
+              priority: FastImage.priority.normal,
+            }}
+          />
+        ) : (
+          <View style={tw`w-[3rem] h-[3rem] rounded-full bg-accent-8`} />
+        )}
+        {chatName ? (
+          <View style={tw`flex-1 flex-col items-start`}>
+            <Text
+              style={tw`default-text-color font-dosis-bold text-base text-accent-2`}>
+              {chatName?.name ?? ''}
+            </Text>
+            <Text
+              numberOfLines={1}
+              style={tw`default-text-color font-dosis text-sm text-accent-2`}>
+              {senderId === userId ? 'You:' : ''} {last_chat}
+            </Text>
+          </View>
+        ) : (
+          <View style={tw`flex-1 flex-col items-start gap-y-3`}>
+            <View style={tw`w-[12rem] h-[1rem] rounded-full bg-accent-8`} />
+            <View style={tw`w-1/2 h-[0.5rem] rounded-full bg-accent-8`} />
+          </View>
+        )}
       </View>
       {isDeleteLoading ? (
         <ActivityIndicator color="#CC8500" size={18} />

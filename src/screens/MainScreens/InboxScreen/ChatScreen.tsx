@@ -149,7 +149,7 @@ const ChatScreen = (): JSX.Element => {
           isLoadingMessages && messages.length != 0 ? renderSpinner : null
         }
       />
-      <View style={tw`flex-row items-center justify-center w-full px-5 py-1 bg-accent-8`}>
+      <View style={tw`flex-row items-center justify-center w-full px-5 py-3 border-t border-accent-8`}>
         <View
           style={tw`flex-row items-center justify-between w-full px-3 gap-x-3 rounded-full bg-accent-1`}>
           <TextInput
