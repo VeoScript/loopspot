@@ -1,7 +1,7 @@
 import {v} from 'convex/values';
 import {query, mutation} from './_generated/server';
 
-export const useGetPostLikes = query({
+export const getLikesByPost = query({
   args: {
     postId: v.string(),
   },
