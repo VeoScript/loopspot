@@ -102,6 +102,8 @@ export const sendMessage = mutation({
   handler: async (ctx, args) => {
     await ctx.db.patch(args.inboxId, {
       last_chat: args.chat,
+      senderId: args.senderId,
+      receiverId: args.receiverId,
     });
 
     await ctx.db.insert('messages', {
