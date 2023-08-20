@@ -6,7 +6,7 @@ import {View, Text} from 'react-native';
 import {useBackHandler} from '../../../lib/hooks/useBackHandler';
 import {useNavigate} from '../../../config/RootNavigation';
 
-const InspiredScreen = (): JSX.Element => {
+const InboxScreen = (): JSX.Element => {
   useBackHandler(() => {
     useNavigate('HomeScreen');
   });
@@ -15,11 +15,11 @@ const InspiredScreen = (): JSX.Element => {
     <DefaultLayout title="Inspired Posts">
       <View style={tw`flex-col items-center justify-center w-full h-full`}>
         <Text style={tw`default-text-color font-dosis text-xl`}>
-          Inspired Screen
+          Inbox Screen
         </Text>
       </View>
     </DefaultLayout>
   );
 };
 
-export default InspiredScreen;
+export default InboxScreen;

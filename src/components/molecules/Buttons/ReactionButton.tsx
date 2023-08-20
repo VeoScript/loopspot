@@ -14,7 +14,7 @@ export interface ReactionButtonProps {
 type ReactButtonType = (props: ReactionButtonProps) => JSX.Element;
 
 const ReactionButton: ReactButtonType = ({postId, userId}): JSX.Element => {
-  const reactions = useQuery(api.reactions.useGetPostLikes, {postId});
+  const reactions = useQuery(api.reactions.getLikesByPost, {postId});
   const likeMutation = useMutation(api.reactions.like);
   const unlikeMutation = useMutation(api.reactions.unlike);
 

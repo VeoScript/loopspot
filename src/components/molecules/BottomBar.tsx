@@ -39,7 +39,7 @@ const BottomBar = (): JSX.Element => {
         activeOpacity={0.5}
         style={tw`p-5`}
         onPress={() => useNavigate('InspiredScreen')}>
-        <FeatherIcon name="heart" color="#222" size={25} />
+        <FeatherIcon name="mail" color="#222" size={25} />
       </TouchableOpacity>
       <TouchableOpacity
         activeOpacity={0.5}

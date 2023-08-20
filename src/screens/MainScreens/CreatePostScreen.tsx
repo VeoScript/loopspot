@@ -16,7 +16,7 @@ import {actions, RichEditor, RichToolbar} from 'react-native-pell-rich-editor';
 
 import {userStore} from '../../lib/stores/auth';
 import {useBackHandler} from '../../lib/hooks/useBackHandler';
-import {useNavigate} from '../../config/RootNavigation';
+import {useGoBack, useNavigate} from '../../config/RootNavigation';
 import {useRoute} from '@react-navigation/native';
 
 import {useMutation, useQuery} from 'convex/react';
@@ -143,7 +143,11 @@ const CreatePostScreen = (): JSX.Element => {
   };
 
   useBackHandler(() => {
-    useNavigate('HomeScreen');
+    if (editPostId) {
+      useGoBack();
+    } else {
+      useNavigate('HomeScreen');
+    }
   });
 
   const handleHead1 = () => <Text style={tw`text-accent-2 text-base`}>H1</Text>;

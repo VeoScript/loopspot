@@ -30,7 +30,7 @@ const AppStacks = () => {
             <Stack.Screen name="HomeScreen" component={screen.HomeScreen} />
             <Stack.Screen name="NotificationScreen" component={screen.NotificationScreen} />
             <Stack.Screen name="SearchScreen" component={screen.SearchScreen} />
-            <Stack.Screen name="InspiredScreen" component={screen.InspiredScreen} />
+            <Stack.Screen name="InboxScreen" component={screen.InboxScreen} />
             <Stack.Screen name="ProfileScreen" component={screen.ProfileScreen} />
             <Stack.Screen name="CreatePostScreen" component={screen.CreatePostScreen} />
             <Stack.Screen name="ViewPostScreen" component={screen.ViewPostScreen} />

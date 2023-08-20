@@ -3,7 +3,7 @@ import RegisterScreen from '../screens/AuthScreens/RegisterScreen';
 import HomeScreen from '../screens/MainScreens/HomeScreen';
 import NotificationScreen from '../screens/MainScreens/NotificationScreen';
 import SearchScreen from '../screens/MainScreens/SearchScreen';
-import InspiredScreen from '../screens/MainScreens/InspiredScreen';
+import InboxScreen from '../screens/MainScreens/InboxScreen';
 import ProfileScreen from '../screens/MainScreens/ProfileScreen';
 import CreatePostScreen from '../screens/MainScreens/CreatePostScreen';
 import ViewPostScreen from '../screens/MainScreens/ViewPostScreen';
@@ -14,7 +14,7 @@ export {
   HomeScreen,
   NotificationScreen,
   SearchScreen,
-  InspiredScreen,
+  InboxScreen,
   ProfileScreen,
   CreatePostScreen,
   ViewPostScreen,
