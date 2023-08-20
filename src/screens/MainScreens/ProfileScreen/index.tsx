@@ -7,7 +7,7 @@ import UploadCover from '../../../components/molecules/Modals/UploadCover';
 import ViewImage from '../../../components/molecules/Modals/ViewImage';
 import PostCard from '../../../components/molecules/Cards/PostCard';
 import FollowerHolder from '../../../components/atoms/FollowerHolder';
-import FastImage from 'react-native-fast-image'
+import FastImage from 'react-native-fast-image';
 import tw from '../../../styles/tailwind';
 import {FeatherIcon} from '../../../utils/Icons';
 import {
@@ -21,6 +21,7 @@ import {
 import {launchImageLibrary} from 'react-native-image-picker';
 
 import {useRoute} from '@react-navigation/native';
+import {useNavigate} from '../../../config/RootNavigation';
 import {userStore} from '../../../lib/stores/auth';
 import {
   uploadProfileModalStore,
@@ -28,17 +29,21 @@ import {
   viewImageModalStore,
 } from '../../../lib/stores/global';
 
-import {useQuery, usePaginatedQuery} from 'convex/react';
+import {useQuery, usePaginatedQuery, useMutation} from 'convex/react';
 import {api} from '../../../../convex/_generated/api';
 
 const ProfileScreen = (): JSX.Element => {
   const route: any = useRoute();
   const userProfileId = route.params?.userId;
 
+  const [isLoadingMessage, setIsLoadingMessage] = useState<boolean>(false);
+
   const {userId} = userStore();
   const {setImage, setIsVisible} = viewImageModalStore();
   const {setPhoto: setProfilePhoto, setIsVisible: setIsVisibleUploadProfile} = uploadProfileModalStore();
   const {setPhoto: setCoverPhoto, setIsVisible: setIsVisibleUploadCover} = uploadCoverModalStore();
+
+  const createInbox = useMutation(api.messages.createInbox);
 
   const user = useQuery(api.auth.user, {
     userId: userProfileId ? String(userProfileId) : userId,
@@ -112,7 +117,9 @@ const ProfileScreen = (): JSX.Element => {
     return index.toString();
   };
 
-  const renderSpinner: JSX.Element = <ActivityIndicator style={tw`pb-3`} color="#CC8500" size={40} />;
+  const renderSpinner: JSX.Element = (
+    <ActivityIndicator style={tw`pb-3`} color="#CC8500" size={40} />
+  );
 
   const listIsEmpty: JSX.Element = (
     <>
@@ -203,17 +210,44 @@ const ProfileScreen = (): JSX.Element => {
         <View
           style={tw`flex-row items-center justify-between w-full px-3 py-3 border-b border-accent-8`}>
           <FollowerHolder />
-          <TouchableOpacity
-            activeOpacity={0.5}
-            style={tw`w-auto rounded-xl px-5 py-2 bg-accent-2`}>
-            <Text style={tw`font-dosis text-xs text-accent-1`}>
-              Edit Profile
-            </Text>
-          </TouchableOpacity>
+          <View style={tw`flex-row items-center gap-x-1`}>
+            <TouchableOpacity
+              activeOpacity={0.5}
+              style={tw`w-auto rounded-xl px-5 py-2 bg-accent-2`}>
+              <Text style={tw`font-dosis text-xs text-accent-1`}>
+                Edit Profile
+              </Text>
+            </TouchableOpacity>
+            {userProfileId && userProfileId !== userId && (
+              <TouchableOpacity
+                disabled={isLoadingMessage}
+                activeOpacity={0.5}
+                style={tw`w-auto rounded-xl px-3 py-2 bg-accent-2`}
+                onPress={async () => {
+                  setIsLoadingMessage(true);
+                  const inbox = await createInbox({
+                    last_chat: '',
+                    receiverId: userProfileId,
+                    senderId: userId,
+                  });
+                  setIsLoadingMessage(false);
+                  useNavigate('ChatScreen', {
+                    inboxId: inbox.inboxId,
+                    receiverId: userProfileId,
+                  });
+                }}>
+                {isLoadingMessage ? (
+                  <ActivityIndicator color="#FFFFFF" size={18} />
+                ) : (
+                  <FeatherIcon name="mail" size={18} color="#FFFFFF" />
+                )}
+              </TouchableOpacity>
+            )}
+          </View>
         </View>
       </View>
     </>
-  )
+  );
 
   const renderData = ({item}: any): JSX.Element => {
     const {_id, title, description, storageId} = item;

@@ -30,4 +30,15 @@ export default defineSchema({
     postId: v.string(),
     userId: v.string(),
   }),
+  messages: defineTable({
+    chat: v.string(),
+    senderId: v.string(),
+    receiverId: v.string(),
+    inboxId: v.string(),
+  }),
+  inbox: defineTable({
+    last_chat: v.string() || v.null(),
+    senderId: v.string(),
+    receiverId: v.string(),
+  }),
 });
