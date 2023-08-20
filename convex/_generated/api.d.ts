@@ -15,6 +15,7 @@ import type {
   FunctionReference,
 } from "convex/server";
 import type * as auth from "../auth";
+import type * as messages from "../messages";
 import type * as post from "../post";
 import type * as reactions from "../reactions";
 import type * as upload from "../upload";
@@ -29,6 +30,7 @@ import type * as upload from "../upload";
  */
 declare const fullApi: ApiFromModules<{
   auth: typeof auth;
+  messages: typeof messages;
   post: typeof post;
   reactions: typeof reactions;
   upload: typeof upload;

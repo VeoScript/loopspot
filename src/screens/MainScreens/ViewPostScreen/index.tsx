@@ -11,7 +11,6 @@ import tw from '../../../styles/tailwind';
 import {FeatherIcon} from '../../../utils/Icons';
 import {Toast} from '../../../utils/Toast';
 import {ScrollView, View, Text, TouchableOpacity, Alert} from 'react-native';
-import {RichEditor} from 'react-native-pell-rich-editor';
 import {
   SwipeItem,
   SwipeButtonsContainer,

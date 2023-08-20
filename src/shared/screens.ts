@@ -4,6 +4,7 @@ import HomeScreen from '../screens/MainScreens/HomeScreen';
 import NotificationScreen from '../screens/MainScreens/NotificationScreen';
 import SearchScreen from '../screens/MainScreens/SearchScreen';
 import InboxScreen from '../screens/MainScreens/InboxScreen';
+import ChatScreen from '../screens/MainScreens/InboxScreen/ChatScreen';
 import ProfileScreen from '../screens/MainScreens/ProfileScreen';
 import CreatePostScreen from '../screens/MainScreens/CreatePostScreen';
 import ViewPostScreen from '../screens/MainScreens/ViewPostScreen';
@@ -15,6 +16,7 @@ export {
   NotificationScreen,
   SearchScreen,
   InboxScreen,
+  ChatScreen,
   ProfileScreen,
   CreatePostScreen,
   ViewPostScreen,

@@ -1,11 +1,11 @@
 import React from 'react';
-import FastImage from 'react-native-fast-image'
+import FastImage from 'react-native-fast-image';
 import tw from '../../styles/tailwind';
 import {FeatherIcon} from '../../utils/Icons';
-import {Image, View, TouchableOpacity} from 'react-native';
+import {View, TouchableOpacity} from 'react-native';
 
-import {useNavigate} from '../../config/RootNavigation';
 import {userStore} from '../../lib/stores/auth';
+import {useNavigate} from '../../config/RootNavigation';
 
 import {useQuery} from 'convex/react';
 import {api} from '../../../convex/_generated/api';
@@ -38,7 +38,7 @@ const BottomBar = (): JSX.Element => {
       <TouchableOpacity
         activeOpacity={0.5}
         style={tw`p-5`}
-        onPress={() => useNavigate('InspiredScreen')}>
+        onPress={() => useNavigate('InboxScreen')}>
         <FeatherIcon name="mail" color="#222" size={25} />
       </TouchableOpacity>
       <TouchableOpacity

@@ -17,8 +17,8 @@ const TopBar: TopBarType = ({title}): JSX.Element => {
 
   return (
     <View
-      style={tw`flex-row items-center justify-between w-full px-3 py-5 bg-accent-3`}>
-      <View style={tw`flex-row items-center gap-x-5`}>
+      style={tw`flex-row items-center justify-between w-full px-3 py-5 gap-x-10 bg-accent-3`}>
+      <View style={tw`flex-1 flex-row items-center gap-x-5`}>
         <TouchableOpacity
           activeOpacity={0.5}
           onPress={() =>
@@ -26,7 +26,7 @@ const TopBar: TopBarType = ({title}): JSX.Element => {
           }>
           <FeatherIcon name="menu" color="#222" size={25} />
         </TouchableOpacity>
-        <Text style={tw`default-text-color font-dosis-bold text-xl`}>
+        <Text numberOfLines={1} style={tw`flex-1 default-text-color font-dosis-bold text-xl`}>
           {title}
         </Text>
       </View>
